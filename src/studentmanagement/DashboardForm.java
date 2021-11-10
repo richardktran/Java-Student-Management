@@ -9,7 +9,6 @@ import controllers.StudentController;
 import java.awt.Color;
 import java.awt.HeadlessException;
 import java.awt.Image;
-import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Date;
@@ -24,7 +23,6 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import models.AdminModel;
 import models.StudentModel;
-import utils.DateTimeHelpers;
 
 /**
  *
@@ -57,7 +55,7 @@ public class DashboardForm extends javax.swing.JFrame {
         InitStudentState();
     }
 
-    /* HELPERS */
+    //<editor-fold defaultstate="collapsed" desc="HELPER FUNCTIONS"> 
     private void scaleImage(JLabel lb, String url) {
         ImageIcon icon = new ImageIcon(url);
         Image img = icon.getImage().getScaledInstance(lb.getWidth(), lb.getHeight(), Image.SCALE_SMOOTH);
@@ -79,14 +77,13 @@ public class DashboardForm extends javax.swing.JFrame {
     }
     
     
-    /* HELPERS */
+    // </editor-fold>
 
     
 
-    
-    /* STUDENT HANDLE */
+    //<editor-fold defaultstate="collapsed" desc="STUDENT HANDLE"> 
     private void InitStudentState() {
-        txtDOB.setFormats("dd-MM-yyyy");
+        txtDOBStudent.setFormats("dd-MM-yyyy");
         studentTable = (DefaultTableModel) tbStudent.getModel();
         //Tim kiem
         rowSorterStudent = new TableRowSorter<>(tbStudent.getModel());
@@ -110,42 +107,42 @@ public class DashboardForm extends javax.swing.JFrame {
     }
 
     private void clearFormStudent() {
-        txtMSSV.setText("");
-        txtName.setText("");
-        txtClass.setText("");
-        txtNganh.setSelectedIndex(0);
-        txtKhoa.setSelectedIndex(0);
-        txtDOB.setDate(null);
+        txtMSSVStudent.setText("");
+        txtTenStudent.setText("");
+        txtLopStudent.setText("");
+        txtNganhStudent.setSelectedIndex(0);
+        txtKhoaStudent.setSelectedIndex(0);
+        txtDOBStudent.setDate(null);
         tbStudent.clearSelection();
-        btnAdd.setText("Thêm");
+        btnAddUpdateStudent.setText("Thêm");
     }
     
     private void clickToSelectStudent() {
         int selectedIndex = tbStudent.getSelectedRow();
         if (selectedIndex >= 0) {
             StudentModel std = getStudentFromSelectedIndex(selectedIndex);
-            txtMSSV.setText(std.getMssv());
-            txtName.setText(std.getTen());
-            txtClass.setText(std.getLop());
-            txtDOB.setDate(std.getNgaySinh());
-            int indexNganh = getIndexComboBoxFromString(txtNganh, std.getNganh());
-            int indexKhoa = getIndexComboBoxFromString(txtKhoa, Integer.toString(std.getKhoa()));
-            txtNganh.setSelectedIndex(indexNganh);
-            txtKhoa.setSelectedIndex(indexKhoa);
+            txtMSSVStudent.setText(std.getMssv());
+            txtTenStudent.setText(std.getTen());
+            txtLopStudent.setText(std.getLop());
+            txtDOBStudent.setDate(std.getNgaySinh());
+            int indexNganh = getIndexComboBoxFromString(txtNganhStudent, std.getNganh());
+            int indexKhoa = getIndexComboBoxFromString(txtKhoaStudent, Integer.toString(std.getKhoa()));
+            txtNganhStudent.setSelectedIndex(indexNganh);
+            txtKhoaStudent.setSelectedIndex(indexKhoa);
         }
-        btnAdd.setText("Cập nhật");
+        btnAddUpdateStudent.setText("Cập nhật");
     }
     
     private void editStudent() {
         int selectedIndex = tbStudent.getSelectedRow();
         StudentModel std = getStudentFromSelectedIndex(selectedIndex);
         int id = std.getId();
-        String mssv = txtMSSV.getText();
-        String ten = txtName.getText();
-        String lop = txtClass.getText();
-        String nganh = txtNganh.getSelectedItem().toString();
-        int khoa = Integer.parseInt(txtKhoa.getSelectedItem().toString());
-        Date ngaySinh = txtDOB.getDate();
+        String mssv = txtMSSVStudent.getText();
+        String ten = txtTenStudent.getText();
+        String lop = txtLopStudent.getText();
+        String nganh = txtNganhStudent.getSelectedItem().toString();
+        int khoa = Integer.parseInt(txtKhoaStudent.getSelectedItem().toString());
+        Date ngaySinh = txtDOBStudent.getDate();
         StudentModel newStd = new StudentModel(id, mssv, ten, lop, nganh, khoa, ngaySinh);
         try {
             StudentController.update(newStd);
@@ -158,12 +155,12 @@ public class DashboardForm extends javax.swing.JFrame {
     }
 
     private void addStudent() throws NumberFormatException {
-        String mssv = txtMSSV.getText();
-        String ten = txtName.getText();
-        String lop = txtClass.getText();
-        String nganh = txtNganh.getSelectedItem().toString();
-        int khoa = Integer.parseInt(txtKhoa.getSelectedItem().toString());
-        Date ngaySinh = txtDOB.getDate();
+        String mssv = txtMSSVStudent.getText();
+        String ten = txtTenStudent.getText();
+        String lop = txtLopStudent.getText();
+        String nganh = txtNganhStudent.getSelectedItem().toString();
+        int khoa = Integer.parseInt(txtKhoaStudent.getSelectedItem().toString());
+        Date ngaySinh = txtDOBStudent.getDate();
         StudentModel std = new StudentModel(mssv, ten, lop, nganh, khoa, ngaySinh);
         try {
             StudentController.insert(std);
@@ -190,7 +187,7 @@ public class DashboardForm extends javax.swing.JFrame {
     }
     
     private void searchStudent() {
-        String text = txtSearch.getText();
+        String text = txtSearchStudent.getText();
         
         if (text.trim().length() == 0) {
             rowSorterStudent.setRowFilter(null);
@@ -211,7 +208,7 @@ public class DashboardForm extends javax.swing.JFrame {
         return std;
     }
     
-    /* STUDENT HANDLE */
+    // </editor-fold>
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -233,27 +230,27 @@ public class DashboardForm extends javax.swing.JFrame {
         jLayeredPane1 = new javax.swing.JLayeredPane();
         pnStudent = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        txtSearch = new javax.swing.JTextField();
-        btnSearch = new javax.swing.JButton();
+        txtSearchStudent = new javax.swing.JTextField();
+        btnSearchStudent = new javax.swing.JButton();
         pnTable = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbStudent = new javax.swing.JTable();
-        pnForm = new javax.swing.JPanel();
+        pnFormStudent = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        txtMSSV = new javax.swing.JTextField();
+        txtMSSVStudent = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        txtName = new javax.swing.JTextField();
-        txtClass = new javax.swing.JTextField();
+        txtTenStudent = new javax.swing.JTextField();
+        txtLopStudent = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        txtKhoa = new javax.swing.JComboBox<>();
-        txtNganh = new javax.swing.JComboBox<>();
+        txtKhoaStudent = new javax.swing.JComboBox<>();
+        txtNganhStudent = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
-        txtDOB = new org.jdesktop.swingx.JXDatePicker();
-        btnAdd = new javax.swing.JButton();
-        btnClear = new javax.swing.JButton();
-        btnDelete = new javax.swing.JButton();
+        txtDOBStudent = new org.jdesktop.swingx.JXDatePicker();
+        btnAddUpdateStudent = new javax.swing.JButton();
+        btnClearStudent = new javax.swing.JButton();
+        btnDeleteStudent = new javax.swing.JButton();
         pnCourse = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         txtSearchCourse = new javax.swing.JTextField();
@@ -263,12 +260,12 @@ public class DashboardForm extends javax.swing.JFrame {
         tbCourse = new javax.swing.JTable();
         pnForm1 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
-        txtMHP = new javax.swing.JTextField();
+        txtMHPCourse = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
-        txtTenHP = new javax.swing.JTextField();
-        txtTinChi = new javax.swing.JTextField();
+        txtTenHPCourse = new javax.swing.JTextField();
+        txtTinChiCourse = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
-        btnAddCourse = new javax.swing.JButton();
+        btnAddUpdateCourse = new javax.swing.JButton();
         btnClearCourse = new javax.swing.JButton();
         btnDeleteCourse = new javax.swing.JButton();
         pnScore = new javax.swing.JPanel();
@@ -278,16 +275,16 @@ public class DashboardForm extends javax.swing.JFrame {
         pnTable2 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tbScore = new javax.swing.JTable();
-        pnForm2 = new javax.swing.JPanel();
+        pnFormScore = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
         txtMSSVScore = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
         txtMHPScore = new javax.swing.JTextField();
-        txtDiem = new javax.swing.JTextField();
+        txtDiemScore = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
-        btnAdd2 = new javax.swing.JButton();
-        btnClear2 = new javax.swing.JButton();
-        btnDelete2 = new javax.swing.JButton();
+        btnAddUpdateScore = new javax.swing.JButton();
+        btnClearScore = new javax.swing.JButton();
+        btnDeleteScore = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -400,28 +397,28 @@ public class DashboardForm extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Danh sách sinh viên");
 
-        txtSearch.setBackground(new java.awt.Color(2, 3, 10));
-        txtSearch.setFont(new java.awt.Font("Open Sans", 1, 12)); // NOI18N
-        txtSearch.setForeground(new java.awt.Color(255, 255, 255));
-        txtSearch.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED, new java.awt.Color(76, 78, 88), java.awt.Color.gray));
-        txtSearch.setCaretColor(new java.awt.Color(255, 255, 255));
-        txtSearch.addActionListener(new java.awt.event.ActionListener() {
+        txtSearchStudent.setBackground(new java.awt.Color(2, 3, 10));
+        txtSearchStudent.setFont(new java.awt.Font("Open Sans", 1, 12)); // NOI18N
+        txtSearchStudent.setForeground(new java.awt.Color(255, 255, 255));
+        txtSearchStudent.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED, new java.awt.Color(76, 78, 88), java.awt.Color.gray));
+        txtSearchStudent.setCaretColor(new java.awt.Color(255, 255, 255));
+        txtSearchStudent.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtSearchActionPerformed(evt);
+                txtSearchStudentActionPerformed(evt);
             }
         });
 
-        btnSearch.setBackground(new java.awt.Color(129, 97, 197));
-        btnSearch.setFont(new java.awt.Font("Open Sans", 1, 14)); // NOI18N
-        btnSearch.setForeground(new java.awt.Color(255, 255, 255));
-        btnSearch.setText("Tìm kiếm");
-        btnSearch.setBorder(null);
-        btnSearch.setContentAreaFilled(false);
-        btnSearch.setFocusPainted(false);
-        btnSearch.setOpaque(true);
-        btnSearch.addActionListener(new java.awt.event.ActionListener() {
+        btnSearchStudent.setBackground(new java.awt.Color(129, 97, 197));
+        btnSearchStudent.setFont(new java.awt.Font("Open Sans", 1, 14)); // NOI18N
+        btnSearchStudent.setForeground(new java.awt.Color(255, 255, 255));
+        btnSearchStudent.setText("Tìm kiếm");
+        btnSearchStudent.setBorder(null);
+        btnSearchStudent.setContentAreaFilled(false);
+        btnSearchStudent.setFocusPainted(false);
+        btnSearchStudent.setOpaque(true);
+        btnSearchStudent.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSearchActionPerformed(evt);
+                btnSearchStudentActionPerformed(evt);
             }
         });
 
@@ -480,7 +477,7 @@ public class DashboardForm extends javax.swing.JFrame {
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 242, Short.MAX_VALUE)
         );
 
-        pnForm.setBackground(new java.awt.Color(255, 255, 255));
+        pnFormStudent.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel2.setBackground(new java.awt.Color(4, 9, 33));
         jLabel2.setFont(new java.awt.Font("Open Sans", 1, 14)); // NOI18N
@@ -507,124 +504,124 @@ public class DashboardForm extends javax.swing.JFrame {
         jLabel6.setForeground(new java.awt.Color(0, 59, 142));
         jLabel6.setText("Khoá học:");
 
-        txtKhoa.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "43", "44", "45", "46", "47" }));
+        txtKhoaStudent.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "43", "44", "45", "46", "47" }));
 
-        txtNganh.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Kỹ thuật phần mềm", "Công nghệ thông tin", "Khoa học máy tính", "Hệ thống thông tin", "Công nghệ thông tin CLC", "Mạng máy tính và truyền thông" }));
-        txtNganh.setBorder(null);
+        txtNganhStudent.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Kỹ thuật phần mềm", "Công nghệ thông tin", "Khoa học máy tính", "Hệ thống thông tin", "Công nghệ thông tin CLC", "Mạng máy tính và truyền thông" }));
+        txtNganhStudent.setBorder(null);
 
         jLabel7.setBackground(new java.awt.Color(4, 9, 33));
         jLabel7.setFont(new java.awt.Font("Open Sans", 1, 14)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(0, 59, 142));
         jLabel7.setText("Ngày sinh:");
 
-        btnAdd.setBackground(new java.awt.Color(0, 52, 123));
-        btnAdd.setFont(new java.awt.Font("Open Sans", 1, 14)); // NOI18N
-        btnAdd.setForeground(new java.awt.Color(255, 255, 255));
-        btnAdd.setText("Thêm");
-        btnAdd.setBorder(null);
-        btnAdd.setContentAreaFilled(false);
-        btnAdd.setFocusPainted(false);
-        btnAdd.setOpaque(true);
-        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+        btnAddUpdateStudent.setBackground(new java.awt.Color(0, 52, 123));
+        btnAddUpdateStudent.setFont(new java.awt.Font("Open Sans", 1, 14)); // NOI18N
+        btnAddUpdateStudent.setForeground(new java.awt.Color(255, 255, 255));
+        btnAddUpdateStudent.setText("Thêm");
+        btnAddUpdateStudent.setBorder(null);
+        btnAddUpdateStudent.setContentAreaFilled(false);
+        btnAddUpdateStudent.setFocusPainted(false);
+        btnAddUpdateStudent.setOpaque(true);
+        btnAddUpdateStudent.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddActionPerformed(evt);
+                btnAddUpdateStudentActionPerformed(evt);
             }
         });
 
-        btnClear.setBackground(new java.awt.Color(193, 125, 0));
-        btnClear.setFont(new java.awt.Font("Open Sans", 1, 14)); // NOI18N
-        btnClear.setForeground(new java.awt.Color(255, 255, 255));
-        btnClear.setText("Clear");
-        btnClear.setBorder(null);
-        btnClear.setContentAreaFilled(false);
-        btnClear.setFocusPainted(false);
-        btnClear.setOpaque(true);
-        btnClear.addActionListener(new java.awt.event.ActionListener() {
+        btnClearStudent.setBackground(new java.awt.Color(193, 125, 0));
+        btnClearStudent.setFont(new java.awt.Font("Open Sans", 1, 14)); // NOI18N
+        btnClearStudent.setForeground(new java.awt.Color(255, 255, 255));
+        btnClearStudent.setText("Clear");
+        btnClearStudent.setBorder(null);
+        btnClearStudent.setContentAreaFilled(false);
+        btnClearStudent.setFocusPainted(false);
+        btnClearStudent.setOpaque(true);
+        btnClearStudent.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnClearActionPerformed(evt);
+                btnClearStudentActionPerformed(evt);
             }
         });
 
-        btnDelete.setBackground(new java.awt.Color(193, 20, 0));
-        btnDelete.setFont(new java.awt.Font("Open Sans", 1, 14)); // NOI18N
-        btnDelete.setForeground(new java.awt.Color(255, 255, 255));
-        btnDelete.setText("Xoá");
-        btnDelete.setBorder(null);
-        btnDelete.setContentAreaFilled(false);
-        btnDelete.setFocusPainted(false);
-        btnDelete.setOpaque(true);
-        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+        btnDeleteStudent.setBackground(new java.awt.Color(193, 20, 0));
+        btnDeleteStudent.setFont(new java.awt.Font("Open Sans", 1, 14)); // NOI18N
+        btnDeleteStudent.setForeground(new java.awt.Color(255, 255, 255));
+        btnDeleteStudent.setText("Xoá");
+        btnDeleteStudent.setBorder(null);
+        btnDeleteStudent.setContentAreaFilled(false);
+        btnDeleteStudent.setFocusPainted(false);
+        btnDeleteStudent.setOpaque(true);
+        btnDeleteStudent.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDeleteActionPerformed(evt);
+                btnDeleteStudentActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout pnFormLayout = new javax.swing.GroupLayout(pnForm);
-        pnForm.setLayout(pnFormLayout);
-        pnFormLayout.setHorizontalGroup(
-            pnFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnFormLayout.createSequentialGroup()
+        javax.swing.GroupLayout pnFormStudentLayout = new javax.swing.GroupLayout(pnFormStudent);
+        pnFormStudent.setLayout(pnFormStudentLayout);
+        pnFormStudentLayout.setHorizontalGroup(
+            pnFormStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnFormStudentLayout.createSequentialGroup()
                 .addGap(51, 51, 51)
-                .addGroup(pnFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(pnFormLayout.createSequentialGroup()
-                        .addGroup(pnFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnFormStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(pnFormStudentLayout.createSequentialGroup()
+                        .addGroup(pnFormStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(pnFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtMSSV, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtDOB, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(pnFormStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtMSSVStudent, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtDOBStudent, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(40, 40, 40)
-                        .addGroup(pnFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(pnFormStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(22, 22, 22)
-                        .addGroup(pnFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtNganh, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(pnFormLayout.createSequentialGroup()
+                        .addGroup(pnFormStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtNganhStudent, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtTenStudent, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(pnFormStudentLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 445, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnClearStudent, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(36, 36, 36)
-                .addGroup(pnFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnFormLayout.createSequentialGroup()
+                .addGroup(pnFormStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnFormStudentLayout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addGap(59, 59, 59)
-                        .addComponent(txtClass, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnFormLayout.createSequentialGroup()
+                        .addComponent(txtLopStudent, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnFormStudentLayout.createSequentialGroup()
                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtKhoa, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnFormLayout.createSequentialGroup()
-                        .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtKhoaStudent, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnFormStudentLayout.createSequentialGroup()
+                        .addComponent(btnAddUpdateStudent, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnDeleteStudent, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(100, 100, 100))
         );
-        pnFormLayout.setVerticalGroup(
-            pnFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnFormLayout.createSequentialGroup()
+        pnFormStudentLayout.setVerticalGroup(
+            pnFormStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnFormStudentLayout.createSequentialGroup()
                 .addGap(34, 34, 34)
-                .addGroup(pnFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(pnFormStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtMSSV, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtMSSVStudent, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtTenStudent, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtClass, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtLopStudent, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(37, 37, 37)
-                .addGroup(pnFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(pnFormStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtKhoa, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtKhoaStudent, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtNganh, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtNganhStudent, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtDOB, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtDOBStudent, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
-                .addGroup(pnFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(pnFormStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAddUpdateStudent, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnClearStudent, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnDeleteStudent, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(31, 31, 31))
         );
 
@@ -639,11 +636,11 @@ public class DashboardForm extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnStudentLayout.createSequentialGroup()
                 .addContainerGap(30, Short.MAX_VALUE)
                 .addGroup(pnStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(pnForm, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pnFormStudent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(pnStudentLayout.createSequentialGroup()
-                        .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtSearchStudent, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnSearchStudent, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(pnTable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(36, 36, 36))
         );
@@ -654,12 +651,12 @@ public class DashboardForm extends javax.swing.JFrame {
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(pnStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnSearchStudent, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtSearchStudent, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(28, 28, 28)
                 .addComponent(pnTable, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(pnForm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pnFormStudent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(20, Short.MAX_VALUE))
         );
 
@@ -748,17 +745,17 @@ public class DashboardForm extends javax.swing.JFrame {
         jLabel11.setForeground(new java.awt.Color(0, 59, 142));
         jLabel11.setText("Số tín chỉ: ");
 
-        btnAddCourse.setBackground(new java.awt.Color(0, 52, 123));
-        btnAddCourse.setFont(new java.awt.Font("Open Sans", 1, 14)); // NOI18N
-        btnAddCourse.setForeground(new java.awt.Color(255, 255, 255));
-        btnAddCourse.setText("Thêm");
-        btnAddCourse.setBorder(null);
-        btnAddCourse.setContentAreaFilled(false);
-        btnAddCourse.setFocusPainted(false);
-        btnAddCourse.setOpaque(true);
-        btnAddCourse.addActionListener(new java.awt.event.ActionListener() {
+        btnAddUpdateCourse.setBackground(new java.awt.Color(0, 52, 123));
+        btnAddUpdateCourse.setFont(new java.awt.Font("Open Sans", 1, 14)); // NOI18N
+        btnAddUpdateCourse.setForeground(new java.awt.Color(255, 255, 255));
+        btnAddUpdateCourse.setText("Thêm");
+        btnAddUpdateCourse.setBorder(null);
+        btnAddUpdateCourse.setContentAreaFilled(false);
+        btnAddUpdateCourse.setFocusPainted(false);
+        btnAddUpdateCourse.setOpaque(true);
+        btnAddUpdateCourse.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddCourseActionPerformed(evt);
+                btnAddUpdateCourseActionPerformed(evt);
             }
         });
 
@@ -792,16 +789,16 @@ public class DashboardForm extends javax.swing.JFrame {
                             .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(32, 32, 32)
-                        .addComponent(txtTinChi, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(txtTenHP, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtTinChiCourse, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtTenHPCourse, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(pnForm1Layout.createSequentialGroup()
                         .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(28, 28, 28)
-                        .addComponent(txtMHP, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtMHPCourse, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(167, 167, 167)
                 .addGroup(pnForm1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnClearCourse, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnAddCourse, javax.swing.GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE)
+                    .addComponent(btnAddUpdateCourse, javax.swing.GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE)
                     .addComponent(btnDeleteCourse, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -811,17 +808,17 @@ public class DashboardForm extends javax.swing.JFrame {
                 .addGap(34, 34, 34)
                 .addGroup(pnForm1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtMHP, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtMHPCourse, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnClearCourse, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(29, 29, 29)
                 .addGroup(pnForm1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTenHP, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAddCourse, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtTenHPCourse, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAddUpdateCourse, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
                 .addGroup(pnForm1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTinChi, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtTinChiCourse, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnDeleteCourse, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(38, Short.MAX_VALUE))
         );
@@ -929,7 +926,7 @@ public class DashboardForm extends javax.swing.JFrame {
                 .addGap(0, 32, Short.MAX_VALUE))
         );
 
-        pnForm2.setBackground(new java.awt.Color(255, 255, 255));
+        pnFormScore.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel13.setBackground(new java.awt.Color(4, 9, 33));
         jLabel13.setFont(new java.awt.Font("Open Sans", 1, 14)); // NOI18N
@@ -946,81 +943,81 @@ public class DashboardForm extends javax.swing.JFrame {
         jLabel15.setForeground(new java.awt.Color(0, 59, 142));
         jLabel15.setText("Điểm số:");
 
-        btnAdd2.setBackground(new java.awt.Color(0, 52, 123));
-        btnAdd2.setFont(new java.awt.Font("Open Sans", 1, 14)); // NOI18N
-        btnAdd2.setForeground(new java.awt.Color(255, 255, 255));
-        btnAdd2.setText("Thêm");
-        btnAdd2.setBorder(null);
-        btnAdd2.setContentAreaFilled(false);
-        btnAdd2.setFocusPainted(false);
-        btnAdd2.setOpaque(true);
-        btnAdd2.addActionListener(new java.awt.event.ActionListener() {
+        btnAddUpdateScore.setBackground(new java.awt.Color(0, 52, 123));
+        btnAddUpdateScore.setFont(new java.awt.Font("Open Sans", 1, 14)); // NOI18N
+        btnAddUpdateScore.setForeground(new java.awt.Color(255, 255, 255));
+        btnAddUpdateScore.setText("Thêm");
+        btnAddUpdateScore.setBorder(null);
+        btnAddUpdateScore.setContentAreaFilled(false);
+        btnAddUpdateScore.setFocusPainted(false);
+        btnAddUpdateScore.setOpaque(true);
+        btnAddUpdateScore.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAdd2ActionPerformed(evt);
+                btnAddUpdateScoreActionPerformed(evt);
             }
         });
 
-        btnClear2.setBackground(new java.awt.Color(193, 125, 0));
-        btnClear2.setFont(new java.awt.Font("Open Sans", 1, 14)); // NOI18N
-        btnClear2.setForeground(new java.awt.Color(255, 255, 255));
-        btnClear2.setText("Clear");
-        btnClear2.setBorder(null);
-        btnClear2.setContentAreaFilled(false);
-        btnClear2.setFocusPainted(false);
-        btnClear2.setOpaque(true);
+        btnClearScore.setBackground(new java.awt.Color(193, 125, 0));
+        btnClearScore.setFont(new java.awt.Font("Open Sans", 1, 14)); // NOI18N
+        btnClearScore.setForeground(new java.awt.Color(255, 255, 255));
+        btnClearScore.setText("Clear");
+        btnClearScore.setBorder(null);
+        btnClearScore.setContentAreaFilled(false);
+        btnClearScore.setFocusPainted(false);
+        btnClearScore.setOpaque(true);
 
-        btnDelete2.setBackground(new java.awt.Color(193, 20, 0));
-        btnDelete2.setFont(new java.awt.Font("Open Sans", 1, 14)); // NOI18N
-        btnDelete2.setForeground(new java.awt.Color(255, 255, 255));
-        btnDelete2.setText("Xoá");
-        btnDelete2.setBorder(null);
-        btnDelete2.setContentAreaFilled(false);
-        btnDelete2.setFocusPainted(false);
-        btnDelete2.setOpaque(true);
+        btnDeleteScore.setBackground(new java.awt.Color(193, 20, 0));
+        btnDeleteScore.setFont(new java.awt.Font("Open Sans", 1, 14)); // NOI18N
+        btnDeleteScore.setForeground(new java.awt.Color(255, 255, 255));
+        btnDeleteScore.setText("Xoá");
+        btnDeleteScore.setBorder(null);
+        btnDeleteScore.setContentAreaFilled(false);
+        btnDeleteScore.setFocusPainted(false);
+        btnDeleteScore.setOpaque(true);
 
-        javax.swing.GroupLayout pnForm2Layout = new javax.swing.GroupLayout(pnForm2);
-        pnForm2.setLayout(pnForm2Layout);
-        pnForm2Layout.setHorizontalGroup(
-            pnForm2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnForm2Layout.createSequentialGroup()
+        javax.swing.GroupLayout pnFormScoreLayout = new javax.swing.GroupLayout(pnFormScore);
+        pnFormScore.setLayout(pnFormScoreLayout);
+        pnFormScoreLayout.setHorizontalGroup(
+            pnFormScoreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnFormScoreLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(pnForm2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(pnForm2Layout.createSequentialGroup()
-                        .addGroup(pnForm2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnFormScoreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(pnFormScoreLayout.createSequentialGroup()
+                        .addGroup(pnFormScoreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(32, 32, 32)
-                        .addComponent(txtDiem, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtDiemScore, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(txtMHPScore, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(pnForm2Layout.createSequentialGroup()
+                    .addGroup(pnFormScoreLayout.createSequentialGroup()
                         .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(28, 28, 28)
                         .addComponent(txtMSSVScore, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(167, 167, 167)
-                .addGroup(pnForm2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnClear2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnAdd2, javax.swing.GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE)
-                    .addComponent(btnDelete2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(pnFormScoreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnClearScore, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnAddUpdateScore, javax.swing.GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE)
+                    .addComponent(btnDeleteScore, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        pnForm2Layout.setVerticalGroup(
-            pnForm2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnForm2Layout.createSequentialGroup()
+        pnFormScoreLayout.setVerticalGroup(
+            pnFormScoreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnFormScoreLayout.createSequentialGroup()
                 .addGap(34, 34, 34)
-                .addGroup(pnForm2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(pnFormScoreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtMSSVScore, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnClear2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnClearScore, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(29, 29, 29)
-                .addGroup(pnForm2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(pnFormScoreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtMHPScore, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAdd2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnAddUpdateScore, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
-                .addGroup(pnForm2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(pnFormScoreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtDiem, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnDelete2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtDiemScore, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnDeleteScore, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(33, Short.MAX_VALUE))
         );
 
@@ -1036,7 +1033,7 @@ public class DashboardForm extends javax.swing.JFrame {
                         .addComponent(txtSearchScore, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnSearchScore, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(pnForm2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(pnFormScore, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(36, 36, 36))
             .addGroup(pnScoreLayout.createSequentialGroup()
                 .addGap(410, 410, 410)
@@ -1055,7 +1052,7 @@ public class DashboardForm extends javax.swing.JFrame {
                 .addGap(28, 28, 28)
                 .addComponent(pnTable2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27)
-                .addComponent(pnForm2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pnFormScore, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(33, Short.MAX_VALUE))
         );
 
@@ -1182,33 +1179,32 @@ public class DashboardForm extends javax.swing.JFrame {
         pnScore.setVisible(false);
     }//GEN-LAST:event_btnCourseActionPerformed
 
-    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        if (btnAdd.getText().equals("Thêm")) {
+    private void btnAddUpdateStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddUpdateStudentActionPerformed
+        if (btnAddUpdateStudent.getText().equals("Thêm")) {
             addStudent();
         } else {
             editStudent();
         }
 
-    }//GEN-LAST:event_btnAddActionPerformed
+    }//GEN-LAST:event_btnAddUpdateStudentActionPerformed
 
     
 
-    private void btnAddCourseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCourseActionPerformed
+    private void btnAddUpdateCourseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddUpdateCourseActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnAddCourseActionPerformed
+    }//GEN-LAST:event_btnAddUpdateCourseActionPerformed
 
-    private void btnAdd2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdd2ActionPerformed
+    private void btnAddUpdateScoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddUpdateScoreActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnAdd2ActionPerformed
+    }//GEN-LAST:event_btnAddUpdateScoreActionPerformed
 
-    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
+    private void btnClearStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearStudentActionPerformed
         clearFormStudent();
-        
-    }//GEN-LAST:event_btnClearActionPerformed
+    }//GEN-LAST:event_btnClearStudentActionPerformed
 
-    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+    private void btnDeleteStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteStudentActionPerformed
         deleteStudent();
-    }//GEN-LAST:event_btnDeleteActionPerformed
+    }//GEN-LAST:event_btnDeleteStudentActionPerformed
 
     private void tbStudentMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbStudentMouseClicked
 
@@ -1220,13 +1216,13 @@ public class DashboardForm extends javax.swing.JFrame {
 
     
 
-    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+    private void btnSearchStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchStudentActionPerformed
         searchStudent();
-    }//GEN-LAST:event_btnSearchActionPerformed
+    }//GEN-LAST:event_btnSearchStudentActionPerformed
 
-    private void txtSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchActionPerformed
+    private void txtSearchStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchStudentActionPerformed
         searchStudent();
-    }//GEN-LAST:event_txtSearchActionPerformed
+    }//GEN-LAST:event_txtSearchStudentActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1265,21 +1261,21 @@ public class DashboardForm extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel bg;
-    private javax.swing.JButton btnAdd;
-    private javax.swing.JButton btnAdd2;
-    private javax.swing.JButton btnAddCourse;
-    private javax.swing.JButton btnClear;
-    private javax.swing.JButton btnClear2;
+    private javax.swing.JButton btnAddUpdateCourse;
+    private javax.swing.JButton btnAddUpdateScore;
+    private javax.swing.JButton btnAddUpdateStudent;
     private javax.swing.JButton btnClearCourse;
+    private javax.swing.JButton btnClearScore;
+    private javax.swing.JButton btnClearStudent;
     private javax.swing.JButton btnCourse;
-    private javax.swing.JButton btnDelete;
-    private javax.swing.JButton btnDelete2;
     private javax.swing.JButton btnDeleteCourse;
+    private javax.swing.JButton btnDeleteScore;
+    private javax.swing.JButton btnDeleteStudent;
     private javax.swing.JButton btnHome;
     private javax.swing.JButton btnScore;
-    private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnSearchCourse;
     private javax.swing.JButton btnSearchScore;
+    private javax.swing.JButton btnSearchStudent;
     private javax.swing.JButton btnStudent;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -1303,9 +1299,9 @@ public class DashboardForm extends javax.swing.JFrame {
     private javax.swing.JLabel lbAvatar;
     private javax.swing.JLabel lbName;
     private javax.swing.JPanel pnCourse;
-    private javax.swing.JPanel pnForm;
     private javax.swing.JPanel pnForm1;
-    private javax.swing.JPanel pnForm2;
+    private javax.swing.JPanel pnFormScore;
+    private javax.swing.JPanel pnFormStudent;
     private javax.swing.JPanel pnScore;
     private javax.swing.JPanel pnSideBar;
     private javax.swing.JPanel pnStudent;
@@ -1315,20 +1311,20 @@ public class DashboardForm extends javax.swing.JFrame {
     private javax.swing.JTable tbCourse;
     private javax.swing.JTable tbScore;
     private javax.swing.JTable tbStudent;
-    private javax.swing.JTextField txtClass;
-    private org.jdesktop.swingx.JXDatePicker txtDOB;
-    private javax.swing.JTextField txtDiem;
-    private javax.swing.JComboBox<String> txtKhoa;
-    private javax.swing.JTextField txtMHP;
+    private org.jdesktop.swingx.JXDatePicker txtDOBStudent;
+    private javax.swing.JTextField txtDiemScore;
+    private javax.swing.JComboBox<String> txtKhoaStudent;
+    private javax.swing.JTextField txtLopStudent;
+    private javax.swing.JTextField txtMHPCourse;
     private javax.swing.JTextField txtMHPScore;
-    private javax.swing.JTextField txtMSSV;
     private javax.swing.JTextField txtMSSVScore;
-    private javax.swing.JTextField txtName;
-    private javax.swing.JComboBox<String> txtNganh;
-    private javax.swing.JTextField txtSearch;
+    private javax.swing.JTextField txtMSSVStudent;
+    private javax.swing.JComboBox<String> txtNganhStudent;
     private javax.swing.JTextField txtSearchCourse;
     private javax.swing.JTextField txtSearchScore;
-    private javax.swing.JTextField txtTenHP;
-    private javax.swing.JTextField txtTinChi;
+    private javax.swing.JTextField txtSearchStudent;
+    private javax.swing.JTextField txtTenHPCourse;
+    private javax.swing.JTextField txtTenStudent;
+    private javax.swing.JTextField txtTinChiCourse;
     // End of variables declaration//GEN-END:variables
 }

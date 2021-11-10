@@ -306,11 +306,11 @@
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace pref="30" max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                              <Component id="pnForm" max="32767" attributes="0"/>
+                              <Component id="pnFormStudent" max="32767" attributes="0"/>
                               <Group type="102" attributes="0">
-                                  <Component id="txtSearch" min="-2" pref="186" max="-2" attributes="0"/>
+                                  <Component id="txtSearchStudent" min="-2" pref="186" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="btnSearch" min="-2" pref="117" max="-2" attributes="0"/>
+                                  <Component id="btnSearchStudent" min="-2" pref="117" max="-2" attributes="0"/>
                               </Group>
                               <Component id="pnTable" alignment="1" max="32767" attributes="0"/>
                           </Group>
@@ -325,13 +325,13 @@
                           <Component id="jLabel1" min="-2" pref="42" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="btnSearch" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
-                              <Component id="txtSearch" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
+                              <Component id="btnSearchStudent" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
+                              <Component id="txtSearchStudent" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                           <Component id="pnTable" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="pnForm" min="-2" max="-2" attributes="0"/>
+                          <Component id="pnFormStudent" min="-2" max="-2" attributes="0"/>
                           <EmptySpace pref="20" max="32767" attributes="0"/>
                       </Group>
                   </Group>
@@ -349,7 +349,7 @@
                     <Property name="text" type="java.lang.String" value="Danh s&#xe1;ch sinh vi&#xea;n"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="txtSearch">
+                <Component class="javax.swing.JTextField" name="txtSearchStudent">
                   <Properties>
                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="a" green="3" red="2" type="rgb"/>
@@ -373,10 +373,10 @@
                     </Property>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtSearchActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtSearchStudentActionPerformed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JButton" name="btnSearch">
+                <Component class="javax.swing.JButton" name="btnSearchStudent">
                   <Properties>
                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="c5" green="61" red="81" type="rgb"/>
@@ -396,7 +396,7 @@
                     <Property name="opaque" type="boolean" value="true"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSearchActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSearchStudentActionPerformed"/>
                   </Events>
                 </Component>
                 <Container class="javax.swing.JPanel" name="pnTable">
@@ -508,7 +508,7 @@
                     </Container>
                   </SubComponents>
                 </Container>
-                <Container class="javax.swing.JPanel" name="pnForm">
+                <Container class="javax.swing.JPanel" name="pnFormStudent">
                   <Properties>
                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -528,8 +528,8 @@
                                       </Group>
                                       <EmptySpace max="32767" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="txtMSSV" alignment="1" min="-2" pref="154" max="-2" attributes="0"/>
-                                          <Component id="txtDOB" alignment="1" min="-2" pref="154" max="-2" attributes="0"/>
+                                          <Component id="txtMSSVStudent" alignment="1" min="-2" pref="154" max="-2" attributes="0"/>
+                                          <Component id="txtDOBStudent" alignment="1" min="-2" pref="154" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
@@ -538,13 +538,13 @@
                                       </Group>
                                       <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="txtNganh" min="-2" pref="154" max="-2" attributes="0"/>
-                                          <Component id="txtName" min="-2" pref="154" max="-2" attributes="0"/>
+                                          <Component id="txtNganhStudent" min="-2" pref="154" max="-2" attributes="0"/>
+                                          <Component id="txtTenStudent" min="-2" pref="154" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <Group type="102" alignment="1" attributes="0">
                                       <EmptySpace pref="445" max="-2" attributes="0"/>
-                                      <Component id="btnClear" min="-2" pref="114" max="-2" attributes="0"/>
+                                      <Component id="btnClearStudent" min="-2" pref="114" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
@@ -552,17 +552,17 @@
                                   <Group type="102" alignment="1" attributes="0">
                                       <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
-                                      <Component id="txtClass" min="-2" pref="154" max="-2" attributes="0"/>
+                                      <Component id="txtLopStudent" min="-2" pref="154" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="1" attributes="0">
                                       <Component id="jLabel6" min="-2" pref="86" max="-2" attributes="0"/>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="txtKhoa" min="-2" pref="154" max="-2" attributes="0"/>
+                                      <Component id="txtKhoaStudent" min="-2" pref="154" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="1" attributes="0">
-                                      <Component id="btnAdd" min="-2" pref="108" max="-2" attributes="0"/>
+                                      <Component id="btnAddUpdateStudent" min="-2" pref="108" max="-2" attributes="0"/>
                                       <EmptySpace max="32767" attributes="0"/>
-                                      <Component id="btnDelete" min="-2" pref="108" max="-2" attributes="0"/>
+                                      <Component id="btnDeleteStudent" min="-2" pref="108" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace min="-2" pref="100" max="-2" attributes="0"/>
@@ -575,26 +575,26 @@
                               <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jLabel2" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
-                                  <Component id="txtMSSV" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                                  <Component id="txtMSSVStudent" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                                   <Component id="jLabel3" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
-                                  <Component id="txtName" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                                  <Component id="txtTenStudent" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                                   <Component id="jLabel4" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
-                                  <Component id="txtClass" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                                  <Component id="txtLopStudent" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jLabel5" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
-                                  <Component id="txtKhoa" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
+                                  <Component id="txtKhoaStudent" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
                                   <Component id="jLabel6" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
-                                  <Component id="txtNganh" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
+                                  <Component id="txtNganhStudent" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
                                   <Component id="jLabel7" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
-                                  <Component id="txtDOB" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                                  <Component id="txtDOBStudent" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace pref="45" max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="btnAdd" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
-                                  <Component id="btnClear" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
-                                  <Component id="btnDelete" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                                  <Component id="btnAddUpdateStudent" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                                  <Component id="btnClearStudent" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                                  <Component id="btnDeleteStudent" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
                           </Group>
@@ -616,7 +616,7 @@
                         <Property name="text" type="java.lang.String" value="MSSV:"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JTextField" name="txtMSSV">
+                    <Component class="javax.swing.JTextField" name="txtMSSVStudent">
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel3">
                       <Properties>
@@ -632,9 +632,9 @@
                         <Property name="text" type="java.lang.String" value="H&#x1ecd; v&#xe0; t&#xea;n:"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JTextField" name="txtName">
+                    <Component class="javax.swing.JTextField" name="txtTenStudent">
                     </Component>
-                    <Component class="javax.swing.JTextField" name="txtClass">
+                    <Component class="javax.swing.JTextField" name="txtLopStudent">
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel4">
                       <Properties>
@@ -678,7 +678,7 @@
                         <Property name="text" type="java.lang.String" value="Kho&#xe1; h&#x1ecd;c:"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JComboBox" name="txtKhoa">
+                    <Component class="javax.swing.JComboBox" name="txtKhoaStudent">
                       <Properties>
                         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                           <StringArray count="5">
@@ -694,7 +694,7 @@
                         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                       </AuxValues>
                     </Component>
-                    <Component class="javax.swing.JComboBox" name="txtNganh">
+                    <Component class="javax.swing.JComboBox" name="txtNganhStudent">
                       <Properties>
                         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                           <StringArray count="6">
@@ -728,9 +728,9 @@
                         <Property name="text" type="java.lang.String" value="Ng&#xe0;y sinh:"/>
                       </Properties>
                     </Component>
-                    <Component class="org.jdesktop.swingx.JXDatePicker" name="txtDOB">
+                    <Component class="org.jdesktop.swingx.JXDatePicker" name="txtDOBStudent">
                     </Component>
-                    <Component class="javax.swing.JButton" name="btnAdd">
+                    <Component class="javax.swing.JButton" name="btnAddUpdateStudent">
                       <Properties>
                         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="7b" green="34" red="0" type="rgb"/>
@@ -750,10 +750,10 @@
                         <Property name="opaque" type="boolean" value="true"/>
                       </Properties>
                       <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAddActionPerformed"/>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAddUpdateStudentActionPerformed"/>
                       </Events>
                     </Component>
-                    <Component class="javax.swing.JButton" name="btnClear">
+                    <Component class="javax.swing.JButton" name="btnClearStudent">
                       <Properties>
                         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="0" green="7d" red="c1" type="rgb"/>
@@ -773,10 +773,10 @@
                         <Property name="opaque" type="boolean" value="true"/>
                       </Properties>
                       <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnClearActionPerformed"/>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnClearStudentActionPerformed"/>
                       </Events>
                     </Component>
-                    <Component class="javax.swing.JButton" name="btnDelete">
+                    <Component class="javax.swing.JButton" name="btnDeleteStudent">
                       <Properties>
                         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="0" green="14" red="c1" type="rgb"/>
@@ -796,7 +796,7 @@
                         <Property name="opaque" type="boolean" value="true"/>
                       </Properties>
                       <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDeleteActionPerformed"/>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDeleteStudentActionPerformed"/>
                       </Events>
                     </Component>
                   </SubComponents>
@@ -1007,19 +1007,19 @@
                                           <Component id="jLabel11" min="-2" pref="84" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
-                                      <Component id="txtTinChi" min="-2" pref="215" max="-2" attributes="0"/>
+                                      <Component id="txtTinChiCourse" min="-2" pref="215" max="-2" attributes="0"/>
                                   </Group>
-                                  <Component id="txtTenHP" min="-2" pref="215" max="-2" attributes="0"/>
+                                  <Component id="txtTenHPCourse" min="-2" pref="215" max="-2" attributes="0"/>
                                   <Group type="102" alignment="1" attributes="0">
                                       <Component id="jLabel9" min="-2" pref="112" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
-                                      <Component id="txtMHP" min="-2" pref="215" max="-2" attributes="0"/>
+                                      <Component id="txtMHPCourse" min="-2" pref="215" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace min="-2" pref="167" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Component id="btnClearCourse" max="32767" attributes="0"/>
-                                  <Component id="btnAddCourse" pref="114" max="32767" attributes="0"/>
+                                  <Component id="btnAddUpdateCourse" pref="114" max="32767" attributes="0"/>
                                   <Component id="btnDeleteCourse" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace max="32767" attributes="0"/>
@@ -1032,19 +1032,19 @@
                               <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jLabel9" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
-                                  <Component id="txtMHP" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                                  <Component id="txtMHPCourse" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                                   <Component id="btnClearCourse" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jLabel10" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
-                                  <Component id="txtTenHP" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                                  <Component id="btnAddCourse" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                                  <Component id="txtTenHPCourse" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                                  <Component id="btnAddUpdateCourse" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jLabel11" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
-                                  <Component id="txtTinChi" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                                  <Component id="txtTinChiCourse" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                                   <Component id="btnDeleteCourse" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace pref="38" max="32767" attributes="0"/>
@@ -1067,7 +1067,7 @@
                         <Property name="text" type="java.lang.String" value="M&#xe3; h&#x1ecd;c ph&#x1ea7;n:"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JTextField" name="txtMHP">
+                    <Component class="javax.swing.JTextField" name="txtMHPCourse">
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel10">
                       <Properties>
@@ -1083,9 +1083,9 @@
                         <Property name="text" type="java.lang.String" value="T&#xea;n h&#x1ecd;c ph&#x1ea7;n:"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JTextField" name="txtTenHP">
+                    <Component class="javax.swing.JTextField" name="txtTenHPCourse">
                     </Component>
-                    <Component class="javax.swing.JTextField" name="txtTinChi">
+                    <Component class="javax.swing.JTextField" name="txtTinChiCourse">
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel11">
                       <Properties>
@@ -1101,7 +1101,7 @@
                         <Property name="text" type="java.lang.String" value="S&#x1ed1; t&#xed;n ch&#x1ec9;: "/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JButton" name="btnAddCourse">
+                    <Component class="javax.swing.JButton" name="btnAddUpdateCourse">
                       <Properties>
                         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="7b" green="34" red="0" type="rgb"/>
@@ -1121,7 +1121,7 @@
                         <Property name="opaque" type="boolean" value="true"/>
                       </Properties>
                       <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAddCourseActionPerformed"/>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAddUpdateCourseActionPerformed"/>
                       </Events>
                     </Component>
                     <Component class="javax.swing.JButton" name="btnClearCourse">
@@ -1187,7 +1187,7 @@
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Component id="btnSearchScore" min="-2" pref="117" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="pnForm2" alignment="0" max="32767" attributes="0"/>
+                              <Component id="pnFormScore" alignment="0" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
                       </Group>
@@ -1211,7 +1211,7 @@
                           <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                           <Component id="pnTable2" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
-                          <Component id="pnForm2" min="-2" max="-2" attributes="0"/>
+                          <Component id="pnFormScore" min="-2" max="-2" attributes="0"/>
                           <EmptySpace pref="33" max="32767" attributes="0"/>
                       </Group>
                   </Group>
@@ -1371,7 +1371,7 @@
                     </Container>
                   </SubComponents>
                 </Container>
-                <Container class="javax.swing.JPanel" name="pnForm2">
+                <Container class="javax.swing.JPanel" name="pnFormScore">
                   <Properties>
                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -1390,7 +1390,7 @@
                                           <Component id="jLabel15" alignment="0" min="-2" pref="84" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
-                                      <Component id="txtDiem" min="-2" pref="215" max="-2" attributes="0"/>
+                                      <Component id="txtDiemScore" min="-2" pref="215" max="-2" attributes="0"/>
                                   </Group>
                                   <Component id="txtMHPScore" alignment="1" min="-2" pref="215" max="-2" attributes="0"/>
                                   <Group type="102" alignment="1" attributes="0">
@@ -1401,9 +1401,9 @@
                               </Group>
                               <EmptySpace min="-2" pref="167" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="btnClear2" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="btnAdd2" alignment="0" pref="114" max="32767" attributes="0"/>
-                                  <Component id="btnDelete2" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="btnClearScore" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="btnAddUpdateScore" alignment="0" pref="114" max="32767" attributes="0"/>
+                                  <Component id="btnDeleteScore" alignment="0" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace max="32767" attributes="0"/>
                           </Group>
@@ -1416,19 +1416,19 @@
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jLabel13" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
                                   <Component id="txtMSSVScore" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                                  <Component id="btnClear2" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                                  <Component id="btnClearScore" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jLabel14" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
                                   <Component id="txtMHPScore" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                                  <Component id="btnAdd2" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                                  <Component id="btnAddUpdateScore" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jLabel15" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
-                                  <Component id="txtDiem" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                                  <Component id="btnDelete2" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                                  <Component id="txtDiemScore" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                                  <Component id="btnDeleteScore" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace pref="33" max="32767" attributes="0"/>
                           </Group>
@@ -1468,7 +1468,7 @@
                     </Component>
                     <Component class="javax.swing.JTextField" name="txtMHPScore">
                     </Component>
-                    <Component class="javax.swing.JTextField" name="txtDiem">
+                    <Component class="javax.swing.JTextField" name="txtDiemScore">
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel15">
                       <Properties>
@@ -1484,7 +1484,7 @@
                         <Property name="text" type="java.lang.String" value="&#x110;i&#x1ec3;m s&#x1ed1;:"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JButton" name="btnAdd2">
+                    <Component class="javax.swing.JButton" name="btnAddUpdateScore">
                       <Properties>
                         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="7b" green="34" red="0" type="rgb"/>
@@ -1504,10 +1504,10 @@
                         <Property name="opaque" type="boolean" value="true"/>
                       </Properties>
                       <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAdd2ActionPerformed"/>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAddUpdateScoreActionPerformed"/>
                       </Events>
                     </Component>
-                    <Component class="javax.swing.JButton" name="btnClear2">
+                    <Component class="javax.swing.JButton" name="btnClearScore">
                       <Properties>
                         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="0" green="7d" red="c1" type="rgb"/>
@@ -1527,7 +1527,7 @@
                         <Property name="opaque" type="boolean" value="true"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JButton" name="btnDelete2">
+                    <Component class="javax.swing.JButton" name="btnDeleteScore">
                       <Properties>
                         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="0" green="14" red="c1" type="rgb"/>
