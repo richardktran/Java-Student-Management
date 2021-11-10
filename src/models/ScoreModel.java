@@ -11,18 +11,23 @@ package models;
  */
 public class ScoreModel {
     int id;
-    StudentModel student;
-    CourseModel course;
+    StudentModel sinhvien;
+    CourseModel monhoc;
+    String namhoc, hocky;
 
-    public ScoreModel(StudentModel student, CourseModel course) {
-        this.student = student;
-        this.course = course;
+    public ScoreModel(StudentModel sinhvien, CourseModel monhoc, String namhoc, String hocky) {
+        this.sinhvien = sinhvien;
+        this.monhoc = monhoc;
+        this.namhoc = namhoc;
+        this.hocky = hocky;
     }
 
-    public ScoreModel(int id, StudentModel student, CourseModel course) {
+    public ScoreModel(int id, StudentModel sinhvien, CourseModel monhoc, String namhoc, String hocky) {
         this.id = id;
-        this.student = student;
-        this.course = course;
+        this.sinhvien = sinhvien;
+        this.monhoc = monhoc;
+        this.namhoc = namhoc;
+        this.hocky = hocky;
     }
 
     public int getId() {
@@ -33,20 +38,37 @@ public class ScoreModel {
         this.id = id;
     }
 
-    public StudentModel getStudent() {
-        return student;
+    public StudentModel getSinhvien() {
+        return sinhvien;
     }
 
-    public void setStudent(StudentModel student) {
-        this.student = student;
+    public void setSinhvien(StudentModel sinhvien) {
+        this.sinhvien = sinhvien;
     }
 
-    public CourseModel getCourse() {
-        return course;
+    public CourseModel getMonhoc() {
+        return monhoc;
     }
 
-    public void setCourse(CourseModel course) {
-        this.course = course;
+    public void setMonhoc(CourseModel monhoc) {
+        this.monhoc = monhoc;
     }
+
+    public String getNamhoc() {
+        return namhoc;
+    }
+
+    public void setNamhoc(String namhoc) {
+        this.namhoc = namhoc;
+    }
+
+    public String getHocky() {
+        return hocky;
+    }
+
+    public void setHocky(String hocky) {
+        this.hocky = hocky;
+    }
+    
     
 }
