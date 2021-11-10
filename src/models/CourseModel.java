@@ -14,6 +14,9 @@ public class CourseModel {
     String maHP, tenHP;
     int tinChi;
 
+    public CourseModel() {
+    }
+
     public CourseModel(String maHP, String tenHP, int tinChi) {
         this.maHP = maHP;
         this.tenHP = tenHP;

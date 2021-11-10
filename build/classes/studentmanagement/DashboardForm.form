@@ -442,13 +442,13 @@
                             </Property>
                             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                               <Table columnCount="7" rowCount="9">
-                                <Column editable="true" title="STT" type="java.lang.Object"/>
+                                <Column editable="false" title="STT" type="java.lang.Object"/>
                                 <Column editable="false" title="MSSV" type="java.lang.Object"/>
                                 <Column editable="false" title="H&#x1ecd; v&#xe0; t&#xea;n" type="java.lang.Object"/>
                                 <Column editable="false" title="Ng&#xe0;y sinh" type="java.lang.Object"/>
                                 <Column editable="false" title="L&#x1edb;p" type="java.lang.Object"/>
-                                <Column editable="true" title="Ng&#xe0;nh h&#x1ecd;c" type="java.lang.Object"/>
-                                <Column editable="true" title="Kho&#xe1; h&#x1ecd;c" type="java.lang.Object"/>
+                                <Column editable="false" title="Ng&#xe0;nh h&#x1ecd;c" type="java.lang.Object"/>
+                                <Column editable="false" title="Kho&#xe1; h&#x1ecd;c" type="java.lang.Object"/>
                               </Table>
                             </Property>
                             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -887,6 +887,9 @@
                       <Color blue="ff" green="ff" red="ff" type="rgb"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtSearchCourseActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="btnSearchCourse">
                   <Properties>
@@ -907,6 +910,9 @@
                     <Property name="focusPainted" type="boolean" value="false"/>
                     <Property name="opaque" type="boolean" value="true"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSearchCourseActionPerformed"/>
+                  </Events>
                 </Component>
                 <Container class="javax.swing.JPanel" name="pnTable1">
                   <Properties>
@@ -950,7 +956,8 @@
                           <Properties>
                             <Property name="autoCreateRowSorter" type="boolean" value="true"/>
                             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                              <Table columnCount="3" rowCount="9">
+                              <Table columnCount="4" rowCount="7">
+                                <Column editable="true" title="STT" type="java.lang.Object"/>
                                 <Column editable="false" title="M&#xe3; h&#x1ecd;c ph&#x1ea7;n" type="java.lang.Object"/>
                                 <Column editable="false" title="T&#xea;n h&#x1ecd;c ph&#x1ea7;n" type="java.lang.Object"/>
                                 <Column editable="false" title="S&#x1ed1; t&#xed;n ch&#x1ec9;" type="java.lang.Object"/>
@@ -973,16 +980,25 @@
                                   <Editor/>
                                   <Renderer/>
                                 </Column>
+                                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                  <Title/>
+                                  <Editor/>
+                                  <Renderer/>
+                                </Column>
                               </TableColumnModel>
                             </Property>
                             <Property name="gridColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                               <Color blue="a" green="3" red="2" type="rgb"/>
                             </Property>
                             <Property name="opaque" type="boolean" value="false"/>
+                            <Property name="rowHeight" type="int" value="25"/>
                             <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
                               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                             </Property>
                           </Properties>
+                          <Events>
+                            <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tbCourseMousePressed"/>
+                          </Events>
                         </Component>
                       </SubComponents>
                     </Container>
@@ -1143,6 +1159,9 @@
                         <Property name="focusPainted" type="boolean" value="false"/>
                         <Property name="opaque" type="boolean" value="true"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnClearCourseActionPerformed"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JButton" name="btnDeleteCourse">
                       <Properties>
@@ -1163,6 +1182,9 @@
                         <Property name="focusPainted" type="boolean" value="false"/>
                         <Property name="opaque" type="boolean" value="true"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDeleteCourseActionPerformed"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>
@@ -1316,12 +1338,12 @@
                             <Property name="autoCreateRowSorter" type="boolean" value="true"/>
                             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                               <Table columnCount="6" rowCount="9">
-                                <Column editable="true" title="STT" type="java.lang.Object"/>
+                                <Column editable="false" title="STT" type="java.lang.Object"/>
                                 <Column editable="false" title="MSSV" type="java.lang.Object"/>
-                                <Column editable="true" title="T&#xea;n sinh vi&#xea;n" type="java.lang.Object"/>
+                                <Column editable="false" title="T&#xea;n sinh vi&#xea;n" type="java.lang.Object"/>
                                 <Column editable="false" title="T&#xea;n h&#x1ecd;c ph&#x1ea7;n" type="java.lang.Object"/>
-                                <Column editable="true" title="&#x110;i&#x1ec3;m s&#x1ed1;" type="java.lang.Object"/>
-                                <Column editable="true" title="&#x110;i&#x1ec3;m ch&#x1eef;" type="java.lang.Object"/>
+                                <Column editable="false" title="&#x110;i&#x1ec3;m s&#x1ed1;" type="java.lang.Object"/>
+                                <Column editable="false" title="&#x110;i&#x1ec3;m ch&#x1eef;" type="java.lang.Object"/>
                               </Table>
                             </Property>
                             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -1362,6 +1384,7 @@
                               <Color blue="a" green="3" red="2" type="rgb"/>
                             </Property>
                             <Property name="opaque" type="boolean" value="false"/>
+                            <Property name="rowHeight" type="int" value="25"/>
                             <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
                               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                             </Property>

@@ -5,6 +5,7 @@
  */
 package studentmanagement;
 
+import controllers.CourseController;
 import controllers.StudentController;
 import java.awt.Color;
 import java.awt.HeadlessException;
@@ -22,6 +23,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import models.AdminModel;
+import models.CourseModel;
 import models.StudentModel;
 
 /**
@@ -35,6 +37,10 @@ public class DashboardForm extends javax.swing.JFrame {
     List<StudentModel> studentList = new ArrayList<>();
     private TableRowSorter<TableModel> rowSorterStudent;
 
+    DefaultTableModel courseTable;
+    List<CourseModel> courseList = new ArrayList<>();
+    private TableRowSorter<TableModel> rowSorterCourse;
+
     /**
      * Creates new form DashboardForm
      */
@@ -42,8 +48,7 @@ public class DashboardForm extends javax.swing.JFrame {
         initComponents();
         initState();
     }
-    
-    
+
     private void initState() {
         DBConnection.connectDB(this);
         connection = DBConnection.connection;
@@ -53,6 +58,7 @@ public class DashboardForm extends javax.swing.JFrame {
         pnScore.setVisible(false);
         pnCourse.setVisible(false);
         InitStudentState();
+        InitCourseState();
     }
 
     //<editor-fold defaultstate="collapsed" desc="HELPER FUNCTIONS"> 
@@ -62,7 +68,7 @@ public class DashboardForm extends javax.swing.JFrame {
         ImageIcon background = new ImageIcon(img);
         lb.setIcon(background);
     }
-    
+
     private int getIndexComboBoxFromString(JComboBox cbb, String str) {
         int count = cbb.getItemCount();
         int index = -1;
@@ -75,12 +81,8 @@ public class DashboardForm extends javax.swing.JFrame {
         }
         return index;
     }
-    
-    
+
     // </editor-fold>
-
-    
-
     //<editor-fold defaultstate="collapsed" desc="STUDENT HANDLE"> 
     private void InitStudentState() {
         txtDOBStudent.setFormats("dd-MM-yyyy");
@@ -90,7 +92,7 @@ public class DashboardForm extends javax.swing.JFrame {
         tbStudent.setRowSorter(rowSorterStudent);
         showStudent();
     }
-    
+
     private void showStudent() {
         studentList = StudentController.findAll();
         studentTable.setRowCount(0);
@@ -116,7 +118,7 @@ public class DashboardForm extends javax.swing.JFrame {
         tbStudent.clearSelection();
         btnAddUpdateStudent.setText("Thêm");
     }
-    
+
     private void clickToSelectStudent() {
         int selectedIndex = tbStudent.getSelectedRow();
         if (selectedIndex >= 0) {
@@ -132,7 +134,7 @@ public class DashboardForm extends javax.swing.JFrame {
         }
         btnAddUpdateStudent.setText("Cập nhật");
     }
-    
+
     private void editStudent() {
         int selectedIndex = tbStudent.getSelectedRow();
         StudentModel std = getStudentFromSelectedIndex(selectedIndex);
@@ -171,13 +173,13 @@ public class DashboardForm extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }
-    
+
     private void deleteStudent() throws HeadlessException {
         //Xoa sinh vien
         int selectedIndex = tbStudent.getSelectedRow();
         if (selectedIndex >= 0) {
             StudentModel std = studentList.get(selectedIndex);
-            
+
             int opt = JOptionPane.showConfirmDialog(this, "Bạn có muốn xoá sinh viên này?");
             if (opt == 0) {
                 StudentController.delete(std.getId());
@@ -185,10 +187,10 @@ public class DashboardForm extends javax.swing.JFrame {
             }
         }
     }
-    
+
     private void searchStudent() {
         String text = txtSearchStudent.getText();
-        
+
         if (text.trim().length() == 0) {
             rowSorterStudent.setRowFilter(null);
         } else {
@@ -207,9 +209,121 @@ public class DashboardForm extends javax.swing.JFrame {
         }
         return std;
     }
-    
+
     // </editor-fold>
-    
+
+    //<editor-fold defaultstate="collapsed" desc="COURSE HANDLE"> 
+    private void InitCourseState() {
+        courseTable = (DefaultTableModel) tbCourse.getModel();
+        //Tim kiem
+        rowSorterCourse = new TableRowSorter<>(tbCourse.getModel());
+        tbCourse.setRowSorter(rowSorterCourse);
+        showCourse();
+    }
+
+    private void showCourse() {
+        courseList = CourseController.findAll();
+        courseTable.setRowCount(0);
+        courseList.forEach((course) -> {
+            courseTable.addRow(new Object[]{
+                courseTable.getRowCount() + 1,
+                course.getMaHP(),
+                course.getTenHP(),
+                course.getTinChi()
+            });
+        });
+    }
+
+    private void clearFormCourse() {
+        txtMHPCourse.setText("");
+        txtTenHPCourse.setText("");
+        txtTinChiCourse.setText("");
+        tbCourse.clearSelection();
+        btnAddUpdateCourse.setText("Thêm");
+    }
+
+    private void clickToSelectCourse() {
+        int selectedIndex = tbCourse.getSelectedRow();
+        if (selectedIndex >= 0) {
+            CourseModel course = getCourseFromSelectedIndex(selectedIndex);
+            txtMHPCourse.setText(course.getMaHP());
+            txtTenHPCourse.setText(course.getTenHP());
+            txtTinChiCourse.setText(Integer.toString(course.getTinChi()));
+        }
+        btnAddUpdateCourse.setText("Cập nhật");
+    }
+
+    private void editCourse() {
+        int selectedIndex = tbCourse.getSelectedRow();
+        CourseModel course = getCourseFromSelectedIndex(selectedIndex);
+        int id = course.getId();
+        String mhp = txtMHPCourse.getText();
+        String tenhp = txtTenHPCourse.getText();
+        int tinchi = Integer.parseInt(txtTinChiCourse.getText());
+        
+        CourseModel newCourse = new CourseModel(id, mhp, tenhp, tinchi);
+        try {
+            CourseController.update(newCourse);
+            JOptionPane.showMessageDialog(this, "Cập nhật môn học thành công");
+            clearFormCourse();
+            showCourse();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void addCourse() throws NumberFormatException {
+        String mhp = txtMHPCourse.getText();
+        String tenhp = txtTenHPCourse.getText();
+        int tinchi = Integer.parseInt(txtTinChiCourse.getText());
+        
+        CourseModel course = new CourseModel(mhp, tenhp, tinchi);
+        try {
+            CourseController.insert(course);
+            JOptionPane.showMessageDialog(this, "Thêm môn học thành công");
+            clearFormCourse();
+            showCourse();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void deleteCourse() throws HeadlessException {
+        int selectedIndex = tbCourse.getSelectedRow();
+        if (selectedIndex >= 0) {
+            CourseModel course = courseList.get(selectedIndex);
+
+            int opt = JOptionPane.showConfirmDialog(this, "Bạn có muốn xoá môn học này?");
+            if (opt == 0) {
+                CourseController.delete(course.getId());
+                showCourse();
+            }
+        }
+    }
+
+    private void searchCourse() {
+        String text = txtSearchCourse.getText();
+
+        if (text.trim().length() == 0) {
+            rowSorterCourse.setRowFilter(null);
+        } else {
+            rowSorterCourse.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+        }
+    }
+
+    private CourseModel getCourseFromSelectedIndex(int row) {
+        String mhp = tbCourse.getValueAt(row, 1).toString();
+        CourseModel courseIndex = new CourseModel();
+        for (CourseModel course : courseList) {
+            if (mhp.equals(course.getMaHP())) {
+                courseIndex = course;
+                break;
+            }
+        }
+        return courseIndex;
+    }
+
+    // </editor-fold>
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -446,7 +560,7 @@ public class DashboardForm extends javax.swing.JFrame {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                true, false, false, false, false, true, true
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -671,6 +785,11 @@ public class DashboardForm extends javax.swing.JFrame {
         txtSearchCourse.setForeground(new java.awt.Color(255, 255, 255));
         txtSearchCourse.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED, new java.awt.Color(76, 78, 88), java.awt.Color.gray));
         txtSearchCourse.setCaretColor(new java.awt.Color(255, 255, 255));
+        txtSearchCourse.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtSearchCourseActionPerformed(evt);
+            }
+        });
 
         btnSearchCourse.setBackground(new java.awt.Color(129, 97, 197));
         btnSearchCourse.setFont(new java.awt.Font("Open Sans", 1, 14)); // NOI18N
@@ -680,6 +799,11 @@ public class DashboardForm extends javax.swing.JFrame {
         btnSearchCourse.setContentAreaFilled(false);
         btnSearchCourse.setFocusPainted(false);
         btnSearchCourse.setOpaque(true);
+        btnSearchCourse.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchCourseActionPerformed(evt);
+            }
+        });
 
         pnTable1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -689,22 +813,20 @@ public class DashboardForm extends javax.swing.JFrame {
         tbCourse.setAutoCreateRowSorter(true);
         tbCourse.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Mã học phần", "Tên học phần", "Số tín chỉ"
+                "STT", "Mã học phần", "Tên học phần", "Số tín chỉ"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                true, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -713,6 +835,12 @@ public class DashboardForm extends javax.swing.JFrame {
         });
         tbCourse.setGridColor(new java.awt.Color(2, 3, 10));
         tbCourse.setOpaque(false);
+        tbCourse.setRowHeight(25);
+        tbCourse.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                tbCourseMousePressed(evt);
+            }
+        });
         jScrollPane2.setViewportView(tbCourse);
 
         javax.swing.GroupLayout pnTable1Layout = new javax.swing.GroupLayout(pnTable1);
@@ -767,6 +895,11 @@ public class DashboardForm extends javax.swing.JFrame {
         btnClearCourse.setContentAreaFilled(false);
         btnClearCourse.setFocusPainted(false);
         btnClearCourse.setOpaque(true);
+        btnClearCourse.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearCourseActionPerformed(evt);
+            }
+        });
 
         btnDeleteCourse.setBackground(new java.awt.Color(193, 20, 0));
         btnDeleteCourse.setFont(new java.awt.Font("Open Sans", 1, 14)); // NOI18N
@@ -776,6 +909,11 @@ public class DashboardForm extends javax.swing.JFrame {
         btnDeleteCourse.setContentAreaFilled(false);
         btnDeleteCourse.setFocusPainted(false);
         btnDeleteCourse.setOpaque(true);
+        btnDeleteCourse.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteCourseActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnForm1Layout = new javax.swing.GroupLayout(pnForm1);
         pnForm1.setLayout(pnForm1Layout);
@@ -902,7 +1040,7 @@ public class DashboardForm extends javax.swing.JFrame {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                true, false, true, false, true, true
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -911,6 +1049,7 @@ public class DashboardForm extends javax.swing.JFrame {
         });
         tbScore.setGridColor(new java.awt.Color(2, 3, 10));
         tbScore.setOpaque(false);
+        tbScore.setRowHeight(25);
         jScrollPane3.setViewportView(tbScore);
 
         javax.swing.GroupLayout pnTable2Layout = new javax.swing.GroupLayout(pnTable2);
@@ -1188,10 +1327,13 @@ public class DashboardForm extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnAddUpdateStudentActionPerformed
 
-    
 
     private void btnAddUpdateCourseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddUpdateCourseActionPerformed
-        // TODO add your handling code here:
+        if (btnAddUpdateCourse.getText().equals("Thêm")) {
+            addCourse();
+        } else {
+            editCourse();
+        }
     }//GEN-LAST:event_btnAddUpdateCourseActionPerformed
 
     private void btnAddUpdateScoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddUpdateScoreActionPerformed
@@ -1214,7 +1356,6 @@ public class DashboardForm extends javax.swing.JFrame {
         clickToSelectStudent();
     }//GEN-LAST:event_tbStudentMousePressed
 
-    
 
     private void btnSearchStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchStudentActionPerformed
         searchStudent();
@@ -1223,6 +1364,26 @@ public class DashboardForm extends javax.swing.JFrame {
     private void txtSearchStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchStudentActionPerformed
         searchStudent();
     }//GEN-LAST:event_txtSearchStudentActionPerformed
+
+    private void btnClearCourseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearCourseActionPerformed
+        clearFormCourse();
+    }//GEN-LAST:event_btnClearCourseActionPerformed
+
+    private void tbCourseMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbCourseMousePressed
+        clickToSelectCourse();
+    }//GEN-LAST:event_tbCourseMousePressed
+
+    private void btnDeleteCourseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteCourseActionPerformed
+        deleteCourse();
+    }//GEN-LAST:event_btnDeleteCourseActionPerformed
+
+    private void txtSearchCourseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchCourseActionPerformed
+        searchCourse();
+    }//GEN-LAST:event_txtSearchCourseActionPerformed
+
+    private void btnSearchCourseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchCourseActionPerformed
+        searchCourse();
+    }//GEN-LAST:event_btnSearchCourseActionPerformed
 
     /**
      * @param args the command line arguments
