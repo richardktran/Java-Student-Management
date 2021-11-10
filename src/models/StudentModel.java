@@ -16,6 +16,9 @@ public class StudentModel {
     String mssv, ten, lop, nganh;
     Date ngaySinh;
 
+    public StudentModel() {
+    }
+
     public StudentModel(String mssv, String ten, String lop, String nganh, int khoa, Date ngaySinh) {
         this.mssv = mssv;
         this.ten = ten;

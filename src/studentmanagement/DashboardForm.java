@@ -7,13 +7,21 @@ package studentmanagement;
 
 import controllers.StudentController;
 import java.awt.Color;
+import java.awt.HeadlessException;
 import java.awt.Image;
+import java.awt.event.ActionListener;
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import models.AdminModel;
 import models.StudentModel;
 import utils.DateTimeHelpers;
@@ -26,6 +34,9 @@ public class DashboardForm extends javax.swing.JFrame {
 
     Connection connection = null;
     DefaultTableModel studentTable;
+    List<StudentModel> studentList = new ArrayList<>();
+    private TableRowSorter<TableModel> rowSorterStudent;
+
     /**
      * Creates new form DashboardForm
      */
@@ -34,44 +45,174 @@ public class DashboardForm extends javax.swing.JFrame {
         initState();
     }
     
-    private void showStudent(){
-        List<StudentModel> studentList = StudentController.findAll();
+    
+    private void initState() {
+        DBConnection.connectDB(this);
+        connection = DBConnection.connection;
+        scaleImage(lbAvatar, "src/images/avatar.png");
+        lbName.setText(AdminModel.name);
+        pnStudent.setVisible(true);
+        pnScore.setVisible(false);
+        pnCourse.setVisible(false);
+        InitStudentState();
+    }
+
+    /* HELPERS */
+    private void scaleImage(JLabel lb, String url) {
+        ImageIcon icon = new ImageIcon(url);
+        Image img = icon.getImage().getScaledInstance(lb.getWidth(), lb.getHeight(), Image.SCALE_SMOOTH);
+        ImageIcon background = new ImageIcon(img);
+        lb.setIcon(background);
+    }
+    
+    private int getIndexComboBoxFromString(JComboBox cbb, String str) {
+        int count = cbb.getItemCount();
+        int index = -1;
+        for (int i = 0; i < count; i++) {
+            String value = cbb.getItemAt(i).toString();
+            if (value.equals(str)) {
+                index = i;
+                break;
+            }
+        }
+        return index;
+    }
+    
+    
+    /* HELPERS */
+
+    
+
+    
+    /* STUDENT HANDLE */
+    private void InitStudentState() {
+        txtDOB.setFormats("dd-MM-yyyy");
+        studentTable = (DefaultTableModel) tbStudent.getModel();
+        //Tim kiem
+        rowSorterStudent = new TableRowSorter<>(tbStudent.getModel());
+        tbStudent.setRowSorter(rowSorterStudent);
+        showStudent();
+    }
+    
+    private void showStudent() {
+        studentList = StudentController.findAll();
         studentTable.setRowCount(0);
         studentList.forEach((student) -> {
             studentTable.addRow(new Object[]{
-                studentTable.getRowCount()+1,
+                studentTable.getRowCount() + 1,
                 student.getMssv(),
                 student.getTen(),
                 student.getNgaySinh(),
                 student.getLop(),
                 student.getNganh(),
-                student.getKhoa(),
-            });
+                student.getKhoa(),});
         });
     }
-    
-    
-    private void initState() {
-        DBConnection.connectDB(this);
-        connection = DBConnection.connection;
-        scaleImage();
-        lbName.setText(AdminModel.name);
-        txtDOB.setFormats("dd-MM-yyyy");
-        pnStudent.setVisible(true);
-        pnScore.setVisible(false);
-        pnCourse.setVisible(false);
-        
-        studentTable = (DefaultTableModel) tbStudent.getModel();
-        showStudent();
+
+    private void clearFormStudent() {
+        txtMSSV.setText("");
+        txtName.setText("");
+        txtClass.setText("");
+        txtNganh.setSelectedIndex(0);
+        txtKhoa.setSelectedIndex(0);
+        txtDOB.setDate(null);
+        tbStudent.clearSelection();
+        btnAdd.setText("Thêm");
     }
     
-    private void scaleImage() {
-        ImageIcon icon = new ImageIcon("src/images/avatar.png");
-        Image img = icon.getImage().getScaledInstance(lbAvatar.getWidth(), lbAvatar.getHeight(), Image.SCALE_SMOOTH);
-        ImageIcon background = new ImageIcon(img);
-        lbAvatar.setIcon(background);
+    private void clickToSelectStudent() {
+        int selectedIndex = tbStudent.getSelectedRow();
+        if (selectedIndex >= 0) {
+            StudentModel std = getStudentFromSelectedIndex(selectedIndex);
+            txtMSSV.setText(std.getMssv());
+            txtName.setText(std.getTen());
+            txtClass.setText(std.getLop());
+            txtDOB.setDate(std.getNgaySinh());
+            int indexNganh = getIndexComboBoxFromString(txtNganh, std.getNganh());
+            int indexKhoa = getIndexComboBoxFromString(txtKhoa, Integer.toString(std.getKhoa()));
+            txtNganh.setSelectedIndex(indexNganh);
+            txtKhoa.setSelectedIndex(indexKhoa);
+        }
+        btnAdd.setText("Cập nhật");
+    }
+    
+    private void editStudent() {
+        int selectedIndex = tbStudent.getSelectedRow();
+        StudentModel std = getStudentFromSelectedIndex(selectedIndex);
+        int id = std.getId();
+        String mssv = txtMSSV.getText();
+        String ten = txtName.getText();
+        String lop = txtClass.getText();
+        String nganh = txtNganh.getSelectedItem().toString();
+        int khoa = Integer.parseInt(txtKhoa.getSelectedItem().toString());
+        Date ngaySinh = txtDOB.getDate();
+        StudentModel newStd = new StudentModel(id, mssv, ten, lop, nganh, khoa, ngaySinh);
+        try {
+            StudentController.update(newStd);
+            JOptionPane.showMessageDialog(this, "Cập nhật sinh viên thành công");
+            clearFormStudent();
+            showStudent();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
+    private void addStudent() throws NumberFormatException {
+        String mssv = txtMSSV.getText();
+        String ten = txtName.getText();
+        String lop = txtClass.getText();
+        String nganh = txtNganh.getSelectedItem().toString();
+        int khoa = Integer.parseInt(txtKhoa.getSelectedItem().toString());
+        Date ngaySinh = txtDOB.getDate();
+        StudentModel std = new StudentModel(mssv, ten, lop, nganh, khoa, ngaySinh);
+        try {
+            StudentController.insert(std);
+            JOptionPane.showMessageDialog(this, "Thêm sinh viên thành công");
+            clearFormStudent();
+            showStudent();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private void deleteStudent() throws HeadlessException {
+        //Xoa sinh vien
+        int selectedIndex = tbStudent.getSelectedRow();
+        if (selectedIndex >= 0) {
+            StudentModel std = studentList.get(selectedIndex);
+            
+            int opt = JOptionPane.showConfirmDialog(this, "Bạn có muốn xoá sinh viên này?");
+            if (opt == 0) {
+                StudentController.delete(std.getId());
+                showStudent();
+            }
+        }
+    }
+    
+    private void searchStudent() {
+        String text = txtSearch.getText();
+        
+        if (text.trim().length() == 0) {
+            rowSorterStudent.setRowFilter(null);
+        } else {
+            rowSorterStudent.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+        }
+    }
+
+    private StudentModel getStudentFromSelectedIndex(int row) {
+        String mssv = tbStudent.getValueAt(row, 1).toString();
+        StudentModel std = new StudentModel();
+        for (StudentModel student : studentList) {
+            if (mssv.equals(student.getMssv())) {
+                std = student;
+                break;
+            }
+        }
+        return std;
+    }
+    
+    /* STUDENT HANDLE */
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -264,6 +405,11 @@ public class DashboardForm extends javax.swing.JFrame {
         txtSearch.setForeground(new java.awt.Color(255, 255, 255));
         txtSearch.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED, new java.awt.Color(76, 78, 88), java.awt.Color.gray));
         txtSearch.setCaretColor(new java.awt.Color(255, 255, 255));
+        txtSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtSearchActionPerformed(evt);
+            }
+        });
 
         btnSearch.setBackground(new java.awt.Color(129, 97, 197));
         btnSearch.setFont(new java.awt.Font("Open Sans", 1, 14)); // NOI18N
@@ -273,6 +419,11 @@ public class DashboardForm extends javax.swing.JFrame {
         btnSearch.setContentAreaFilled(false);
         btnSearch.setFocusPainted(false);
         btnSearch.setOpaque(true);
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchActionPerformed(evt);
+            }
+        });
 
         pnTable.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -280,6 +431,7 @@ public class DashboardForm extends javax.swing.JFrame {
         jScrollPane1.setBorder(null);
 
         tbStudent.setAutoCreateRowSorter(true);
+        tbStudent.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         tbStudent.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null},
@@ -306,6 +458,15 @@ public class DashboardForm extends javax.swing.JFrame {
         });
         tbStudent.setGridColor(new java.awt.Color(2, 3, 10));
         tbStudent.setOpaque(false);
+        tbStudent.setRowHeight(25);
+        tbStudent.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbStudentMouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                tbStudentMousePressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(tbStudent);
 
         javax.swing.GroupLayout pnTableLayout = new javax.swing.GroupLayout(pnTable);
@@ -316,9 +477,7 @@ public class DashboardForm extends javax.swing.JFrame {
         );
         pnTableLayout.setVerticalGroup(
             pnTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnTableLayout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 32, Short.MAX_VALUE))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 242, Short.MAX_VALUE)
         );
 
         pnForm.setBackground(new java.awt.Color(255, 255, 255));
@@ -380,6 +539,11 @@ public class DashboardForm extends javax.swing.JFrame {
         btnClear.setContentAreaFilled(false);
         btnClear.setFocusPainted(false);
         btnClear.setOpaque(true);
+        btnClear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearActionPerformed(evt);
+            }
+        });
 
         btnDelete.setBackground(new java.awt.Color(193, 20, 0));
         btnDelete.setFont(new java.awt.Font("Open Sans", 1, 14)); // NOI18N
@@ -389,6 +553,11 @@ public class DashboardForm extends javax.swing.JFrame {
         btnDelete.setContentAreaFilled(false);
         btnDelete.setFocusPainted(false);
         btnDelete.setOpaque(true);
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnFormLayout = new javax.swing.GroupLayout(pnForm);
         pnForm.setLayout(pnFormLayout);
@@ -969,54 +1138,60 @@ public class DashboardForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnScoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnScoreActionPerformed
-        btnScore.setBackground(new Color(129,97,197));
-        btnHome.setBackground(new Color(4,9,33));
-        btnStudent.setBackground(new Color(4,9,33));
-        btnCourse.setBackground(new Color(4,9,33));
-        
+        btnScore.setBackground(new Color(129, 97, 197));
+        btnHome.setBackground(new Color(4, 9, 33));
+        btnStudent.setBackground(new Color(4, 9, 33));
+        btnCourse.setBackground(new Color(4, 9, 33));
+
         pnStudent.setVisible(false);
         pnCourse.setVisible(false);
         pnScore.setVisible(true);
     }//GEN-LAST:event_btnScoreActionPerformed
 
     private void btnHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHomeActionPerformed
-        btnHome.setBackground(new Color(129,97,197));
-        btnStudent.setBackground(new Color(4,9,33));
-        btnCourse.setBackground(new Color(4,9,33));
-        btnScore.setBackground(new Color(4,9,33));
-        
+        btnHome.setBackground(new Color(129, 97, 197));
+        btnStudent.setBackground(new Color(4, 9, 33));
+        btnCourse.setBackground(new Color(4, 9, 33));
+        btnScore.setBackground(new Color(4, 9, 33));
+
         pnStudent.setVisible(true);
         pnCourse.setVisible(false);
         pnScore.setVisible(false);
     }//GEN-LAST:event_btnHomeActionPerformed
 
     private void btnStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStudentActionPerformed
-        btnStudent.setBackground(new Color(129,97,197));
-        btnHome.setBackground(new Color(4,9,33));
-        btnCourse.setBackground(new Color(4,9,33));
-        btnScore.setBackground(new Color(4,9,33));
-        
+        btnStudent.setBackground(new Color(129, 97, 197));
+        btnHome.setBackground(new Color(4, 9, 33));
+        btnCourse.setBackground(new Color(4, 9, 33));
+        btnScore.setBackground(new Color(4, 9, 33));
+
         pnStudent.setVisible(true);
         pnCourse.setVisible(false);
         pnScore.setVisible(false);
-        
+
     }//GEN-LAST:event_btnStudentActionPerformed
 
     private void btnCourseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCourseActionPerformed
-        btnCourse.setBackground(new Color(129,97,197));
-        btnHome.setBackground(new Color(4,9,33));
-        btnStudent.setBackground(new Color(4,9,33));
-        btnScore.setBackground(new Color(4,9,33));
-        
+        btnCourse.setBackground(new Color(129, 97, 197));
+        btnHome.setBackground(new Color(4, 9, 33));
+        btnStudent.setBackground(new Color(4, 9, 33));
+        btnScore.setBackground(new Color(4, 9, 33));
+
         pnStudent.setVisible(false);
         pnCourse.setVisible(true);
         pnScore.setVisible(false);
     }//GEN-LAST:event_btnCourseActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        Date ngay = txtDOB.getDate();
-        JOptionPane.showMessageDialog(this, DateTimeHelpers.dateTimeToString(ngay));
+        if (btnAdd.getText().equals("Thêm")) {
+            addStudent();
+        } else {
+            editStudent();
+        }
+
     }//GEN-LAST:event_btnAddActionPerformed
+
+    
 
     private void btnAddCourseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCourseActionPerformed
         // TODO add your handling code here:
@@ -1025,6 +1200,33 @@ public class DashboardForm extends javax.swing.JFrame {
     private void btnAdd2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdd2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnAdd2ActionPerformed
+
+    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
+        clearFormStudent();
+        
+    }//GEN-LAST:event_btnClearActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        deleteStudent();
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void tbStudentMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbStudentMouseClicked
+
+    }//GEN-LAST:event_tbStudentMouseClicked
+
+    private void tbStudentMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbStudentMousePressed
+        clickToSelectStudent();
+    }//GEN-LAST:event_tbStudentMousePressed
+
+    
+
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+        searchStudent();
+    }//GEN-LAST:event_btnSearchActionPerformed
+
+    private void txtSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchActionPerformed
+        searchStudent();
+    }//GEN-LAST:event_txtSearchActionPerformed
 
     /**
      * @param args the command line arguments

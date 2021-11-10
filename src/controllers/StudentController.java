@@ -7,30 +7,34 @@ package controllers;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import models.StudentModel;
+import studentmanagement.DBConnection;
 
 /**
  *
  * @author richa
  */
 public class StudentController {
+
+    Connection connection = null;
+
     public static List<StudentModel> findAll() {
         List<StudentModel> studentList = new ArrayList<>();
-        
-        Connection connection = null;
         Statement statement = null;
         try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            String dbURl = "jdbc:sqlserver://localhost:1433;databaseName=java;user=sa;password=annowit;";
-            connection = DriverManager.getConnection(dbURl);
+            Connection connection = DBConnection.connection;
             String sql = "SELECT * FROM student";
             statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(sql);
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 StudentModel std = new StudentModel(
                         resultSet.getInt("id"),
                         resultSet.getString("mssv"),
@@ -42,13 +46,65 @@ public class StudentController {
                 );
                 studentList.add(std);
             }
-            connection.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return studentList;
+    }
+
+    public static void insert(StudentModel std) {
+        PreparedStatement statement = null;
+        try {
+            Connection connection = DBConnection.connection;
+            String sql = "INSERT INTO student(mssv, ten, khoa, nganh, lop, ngaySinh) values(?,?,?,?,?,?)";
+            statement = connection.prepareCall(sql);
+            statement.setString(1, std.getMssv());
+            statement.setString(2, std.getTen());
+            statement.setInt(3, std.getKhoa());
+            statement.setString(4, std.getNganh());
+            statement.setString(5, std.getLop());
+            java.sql.Date sqlDate = new java.sql.Date(std.getNgaySinh().getTime());
+            statement.setDate(6, sqlDate);
+            statement.execute();
             
         } catch (Exception ex) {
             ex.printStackTrace();
-
-        } 
-        
-        return studentList;
+        }
+    }
+    
+    public static void update(StudentModel std) {
+        PreparedStatement statement = null;
+        try {
+            Connection connection = DBConnection.connection;
+            String sql = "UPDATE student set mssv=?, ten=?, khoa=?, nganh=?, lop=?, ngaySinh=? where id=?";
+            statement = connection.prepareCall(sql);
+            statement.setString(1, std.getMssv());
+            statement.setString(2, std.getTen());
+            statement.setInt(3, std.getKhoa());
+            statement.setString(4, std.getNganh());
+            statement.setString(5, std.getLop());
+            java.sql.Date sqlDate = new java.sql.Date(std.getNgaySinh().getTime());
+            statement.setDate(6, sqlDate);
+            statement.setInt(7, std.getId());
+            statement.execute();
+            
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    public static void delete(int id) {
+        PreparedStatement statement = null;
+        try {
+            Connection connection = DBConnection.connection;
+            String sql = "DELETE student where id=?";
+            statement = connection.prepareCall(sql);
+            statement.setInt(1, id);
+            statement.execute();
+            
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 }
