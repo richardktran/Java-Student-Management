@@ -19,6 +19,16 @@ public class StudentModel {
     public StudentModel() {
     }
 
+    public StudentModel(int id) {
+        this.id = id;
+        this.ten = "";
+        this.lop = "";
+        this.nganh = "";
+        this.khoa = -1;
+    }
+    
+    
+
     public StudentModel(String mssv, String ten, String lop, String nganh, int khoa, Date ngaySinh) {
         this.mssv = mssv;
         this.ten = ten;

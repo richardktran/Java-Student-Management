@@ -6,15 +6,11 @@
 package controllers;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import models.StudentModel;
 import studentmanagement.DBConnection;
 
@@ -51,6 +47,68 @@ public class StudentController {
         }
 
         return studentList;
+    }
+    
+    public static StudentModel findById(int id) {
+        List<StudentModel> studentList = new ArrayList<>();
+        Statement statement = null;
+        try {
+            Connection connection = DBConnection.connection;
+            String sql = "SELECT * FROM student WHERE id="+id;
+            statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+            while (resultSet.next()) {
+                StudentModel std = new StudentModel(
+                        resultSet.getInt("id"),
+                        resultSet.getString("mssv"),
+                        resultSet.getString("ten"),
+                        resultSet.getString("lop"),
+                        resultSet.getString("nganh"),
+                        resultSet.getInt("khoa"),
+                        resultSet.getDate("ngaySinh")
+                );
+                studentList.add(std);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        if(studentList.size()>0){
+            return studentList.get(0);
+        } else{
+            return new StudentModel(-1);
+        }
+    }
+    
+    public static StudentModel findByMSSV(String mssv) {
+        List<StudentModel> studentList = new ArrayList<>();
+        Statement statement = null;
+        try {
+            Connection connection = DBConnection.connection;
+            String sql = "SELECT * FROM student WHERE mssv='"+mssv+"'";
+            statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+            while (resultSet.next()) {
+                StudentModel std = new StudentModel(
+                        resultSet.getInt("id"),
+                        resultSet.getString("mssv"),
+                        resultSet.getString("ten"),
+                        resultSet.getString("lop"),
+                        resultSet.getString("nganh"),
+                        resultSet.getInt("khoa"),
+                        resultSet.getDate("ngaySinh")
+                );
+                studentList.add(std);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        if(studentList.size()>0){
+            return studentList.get(0);
+        } else{
+            return new StudentModel(-1);
+        }
     }
 
     public static void insert(StudentModel std) {

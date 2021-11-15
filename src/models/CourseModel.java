@@ -17,6 +17,15 @@ public class CourseModel {
     public CourseModel() {
     }
 
+    public CourseModel(int id) {
+        this.id = id;
+        this.maHP = "";
+        this.tenHP = "";
+        this.tinChi = 0;
+    }
+    
+    
+
     public CourseModel(String maHP, String tenHP, int tinChi) {
         this.maHP = maHP;
         this.tenHP = tenHP;

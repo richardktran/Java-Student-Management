@@ -6,6 +6,7 @@
 package studentmanagement;
 
 import controllers.CourseController;
+import controllers.ScoreController;
 import controllers.StudentController;
 import java.awt.Color;
 import java.awt.HeadlessException;
@@ -24,6 +25,7 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import models.AdminModel;
 import models.CourseModel;
+import models.ScoreModel;
 import models.StudentModel;
 
 /**
@@ -40,6 +42,10 @@ public class DashboardForm extends javax.swing.JFrame {
     DefaultTableModel courseTable;
     List<CourseModel> courseList = new ArrayList<>();
     private TableRowSorter<TableModel> rowSorterCourse;
+    
+    DefaultTableModel scoreTable;
+    List<ScoreModel> scoreList = new ArrayList<>();
+    private TableRowSorter<TableModel> rowSorterScore;
 
     /**
      * Creates new form DashboardForm
@@ -47,6 +53,7 @@ public class DashboardForm extends javax.swing.JFrame {
     public DashboardForm() {
         initComponents();
         initState();
+        
     }
 
     private void initState() {
@@ -59,6 +66,7 @@ public class DashboardForm extends javax.swing.JFrame {
         pnCourse.setVisible(false);
         InitStudentState();
         InitCourseState();
+        InitScoreState();
     }
 
     //<editor-fold defaultstate="collapsed" desc="HELPER FUNCTIONS"> 
@@ -324,6 +332,156 @@ public class DashboardForm extends javax.swing.JFrame {
     }
 
     // </editor-fold>
+    
+    //    <editor-fold defaultstate="collapsed" desc="SCORE HANDLE"> 
+    private void InitScoreState() {
+        scoreTable = (DefaultTableModel) tbScore.getModel();
+        //Tim kiem
+        rowSorterScore = new TableRowSorter<>(tbScore.getModel());
+        tbScore.setRowSorter(rowSorterScore);
+        showScore();
+    }
+
+    private void showScore() {
+        scoreList = ScoreController.findAll();
+        scoreTable.setRowCount(0);
+        scoreList.forEach((score) -> {
+            scoreTable.addRow(new Object[]{
+                scoreTable.getRowCount() + 1,
+                score.getSinhvien().getMssv(),
+                score.getSinhvien().getTen(),
+                score.getMonhoc().getTenHP(),
+                score.getDiem(),
+                score.getDiemChu(),
+                score.getNamhoc(),
+                score.getHocky()
+            });
+        });
+    }
+
+    private void clearFormScore() {
+        txtMHPScore.setText("");
+        txtMSSVScore.setText("");
+        txtDiemScore.setText("");
+        
+        cbHocKyScore.setSelectedIndex(0);
+        cbNamHocScore.setSelectedIndex(0);
+        tbScore.clearSelection();
+        btnAddUpdateScore.setText("Thêm");
+    }
+
+    private void clickToSelectScore() {
+        int selectedIndex = tbScore.getSelectedRow();
+        if (selectedIndex >= 0) {
+            ScoreModel score = getScoreFromSelectedIndex(selectedIndex);
+            
+            txtMHPScore.setText(score.getMonhoc().getMaHP());
+            txtMSSVScore.setText(score.getSinhvien().getMssv());
+            txtDiemScore.setText(Double.toString(score.getDiem()));
+            int indexHocKy = getIndexComboBoxFromString(cbHocKyScore, score.getHocky());
+            int indexNamHoc = getIndexComboBoxFromString(cbNamHocScore, score.getNamhoc());
+            cbHocKyScore.setSelectedIndex(indexHocKy);
+            cbNamHocScore.setSelectedIndex(indexNamHoc);
+        }
+        btnAddUpdateScore.setText("Cập nhật");
+    }
+    
+    private ScoreModel getScoreFromSelectedIndex(int row) {
+        String mssv = tbScore.getValueAt(row, 1).toString();
+        String tenHP = tbScore.getValueAt(row, 3).toString();
+        ScoreModel scoreIndex = new ScoreModel();
+        for (ScoreModel score : scoreList) {
+            if (mssv.equals(score.getSinhvien().getMssv()) && tenHP.equals(score.getMonhoc().getTenHP())) {
+                scoreIndex = score;
+                break;
+            }
+        }
+        return scoreIndex;
+    }
+
+    private void editScore() {
+        int selectedIndex = tbScore.getSelectedRow();
+        ScoreModel score = getScoreFromSelectedIndex(selectedIndex);
+        int id = score.getId();
+        StudentModel std = StudentController.findByMSSV(txtMSSVScore.getText());
+        if(std.getId()==-1){
+            JOptionPane.showMessageDialog(this, "Không tồn tại mã số sinh viên này");
+            return;
+        }
+        CourseModel course = CourseController.findByMHP(txtMHPScore.getText());
+        
+        if(course.getId()==-1){
+            JOptionPane.showMessageDialog(this, "Không tồn tại mã học phần này");
+            return;
+        }
+        
+        String namhoc = cbNamHocScore.getSelectedItem().toString();
+        String hocky = cbHocKyScore.getSelectedItem().toString();
+        double diem = Double.parseDouble(txtDiemScore.getText());
+        
+        ScoreModel newScore = new ScoreModel(id, std, course, diem, namhoc, hocky);
+        try {
+            ScoreController.update(newScore);
+            JOptionPane.showMessageDialog(this, "Cập nhật điểm thành công");
+            clearFormScore();
+            showScore();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void addScore() throws NumberFormatException {
+        StudentModel std = StudentController.findByMSSV(txtMSSVScore.getText());
+        if(std.getId()==-1){
+            JOptionPane.showMessageDialog(this, "Không tồn tại mã số sinh viên này");
+            return;
+        }
+        CourseModel course = CourseController.findByMHP(txtMHPScore.getText());
+        if(course.getId()==-1){
+            JOptionPane.showMessageDialog(this, "Không tồn tại mã học phần này");
+            return;
+        }
+        String namhoc = cbNamHocScore.getSelectedItem().toString();
+        String hocky = cbHocKyScore.getSelectedItem().toString();
+        double diem = Double.parseDouble(txtDiemScore.getText());
+        ScoreModel score = new ScoreModel(std, course, diem, namhoc, hocky);
+        try {
+            ScoreController.insert(score);
+            JOptionPane.showMessageDialog(this, "Thêm điểm thành công");
+            clearFormScore();
+            showScore();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void deleteScore() throws HeadlessException {
+        int selectedIndex = tbScore.getSelectedRow();
+        if (selectedIndex >= 0) {
+            ScoreModel score = scoreList.get(selectedIndex);
+
+            int opt = JOptionPane.showConfirmDialog(this, "Bạn có muốn xoá điểm của sinh viên này?");
+            if (opt == 0) {
+                ScoreController.delete(score.getId());
+                showScore();
+            }
+        }
+    }
+
+    private void searchScore() {
+        String text = txtSearchScore.getText();
+
+        if (text.trim().length() == 0) {
+            rowSorterScore.setRowFilter(null);
+        } else {
+            rowSorterScore.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+        }
+    }
+
+    
+
+    // </editor-fold>
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -1011,6 +1169,11 @@ public class DashboardForm extends javax.swing.JFrame {
         txtSearchScore.setForeground(new java.awt.Color(255, 255, 255));
         txtSearchScore.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED, new java.awt.Color(76, 78, 88), java.awt.Color.gray));
         txtSearchScore.setCaretColor(new java.awt.Color(255, 255, 255));
+        txtSearchScore.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtSearchScoreActionPerformed(evt);
+            }
+        });
 
         btnSearchScore.setBackground(new java.awt.Color(129, 97, 197));
         btnSearchScore.setFont(new java.awt.Font("Open Sans", 1, 14)); // NOI18N
@@ -1020,6 +1183,11 @@ public class DashboardForm extends javax.swing.JFrame {
         btnSearchScore.setContentAreaFilled(false);
         btnSearchScore.setFocusPainted(false);
         btnSearchScore.setOpaque(true);
+        btnSearchScore.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchScoreActionPerformed(evt);
+            }
+        });
 
         pnTable2.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -1029,22 +1197,22 @@ public class DashboardForm extends javax.swing.JFrame {
         tbScore.setAutoCreateRowSorter(true);
         tbScore.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "STT", "MSSV", "Tên sinh viên", "Tên học phần", "Điểm số", "Điểm chữ"
+                "STT", "MSSV", "Tên sinh viên", "Tên học phần", "Điểm số", "Điểm chữ", "Năm học", "Học kỳ"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false, false, true, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -1054,6 +1222,11 @@ public class DashboardForm extends javax.swing.JFrame {
         tbScore.setGridColor(new java.awt.Color(2, 3, 10));
         tbScore.setOpaque(false);
         tbScore.setRowHeight(25);
+        tbScore.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                tbScoreMousePressed(evt);
+            }
+        });
         jScrollPane3.setViewportView(tbScore);
 
         javax.swing.GroupLayout pnTable2Layout = new javax.swing.GroupLayout(pnTable2);
@@ -1108,6 +1281,11 @@ public class DashboardForm extends javax.swing.JFrame {
         btnClearScore.setContentAreaFilled(false);
         btnClearScore.setFocusPainted(false);
         btnClearScore.setOpaque(true);
+        btnClearScore.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearScoreActionPerformed(evt);
+            }
+        });
 
         btnDeleteScore.setBackground(new java.awt.Color(193, 20, 0));
         btnDeleteScore.setFont(new java.awt.Font("Open Sans", 1, 14)); // NOI18N
@@ -1117,6 +1295,11 @@ public class DashboardForm extends javax.swing.JFrame {
         btnDeleteScore.setContentAreaFilled(false);
         btnDeleteScore.setFocusPainted(false);
         btnDeleteScore.setOpaque(true);
+        btnDeleteScore.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteScoreActionPerformed(evt);
+            }
+        });
 
         jLabel16.setBackground(new java.awt.Color(4, 9, 33));
         jLabel16.setFont(new java.awt.Font("Open Sans", 1, 14)); // NOI18N
@@ -1370,7 +1553,11 @@ public class DashboardForm extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAddUpdateCourseActionPerformed
 
     private void btnAddUpdateScoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddUpdateScoreActionPerformed
-        // TODO add your handling code here:
+        if (btnAddUpdateScore.getText().equals("Thêm")) {
+            addScore();
+        } else {
+            editScore();
+        }
     }//GEN-LAST:event_btnAddUpdateScoreActionPerformed
 
     private void btnClearStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearStudentActionPerformed
@@ -1417,6 +1604,26 @@ public class DashboardForm extends javax.swing.JFrame {
     private void btnSearchCourseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchCourseActionPerformed
         searchCourse();
     }//GEN-LAST:event_btnSearchCourseActionPerformed
+
+    private void btnClearScoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearScoreActionPerformed
+        clearFormScore();
+    }//GEN-LAST:event_btnClearScoreActionPerformed
+
+    private void btnDeleteScoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteScoreActionPerformed
+        deleteScore();
+    }//GEN-LAST:event_btnDeleteScoreActionPerformed
+
+    private void tbScoreMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbScoreMousePressed
+        clickToSelectScore();
+    }//GEN-LAST:event_tbScoreMousePressed
+
+    private void btnSearchScoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchScoreActionPerformed
+        searchScore();
+    }//GEN-LAST:event_btnSearchScoreActionPerformed
+
+    private void txtSearchScoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchScoreActionPerformed
+        searchScore();
+    }//GEN-LAST:event_txtSearchScoreActionPerformed
 
     /**
      * @param args the command line arguments

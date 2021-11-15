@@ -12,7 +12,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import models.CourseModel;
-import models.StudentModel;
 import studentmanagement.DBConnection;
 
 /**
@@ -44,6 +43,62 @@ public class CourseController {
         }
 
         return courseList;
+    }
+    
+    public static CourseModel findById(int id) {
+        List<CourseModel> courseList = new ArrayList<>();
+        Statement statement = null;
+        try {
+            Connection connection = DBConnection.connection;
+            String sql = "SELECT * FROM course WHERE id="+id;
+            statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+            while (resultSet.next()) {
+                CourseModel course = new CourseModel(
+                        resultSet.getInt("id"),
+                        resultSet.getString("mhp"),
+                        resultSet.getString("tenhp"),
+                        resultSet.getInt("tinchi")
+                );
+                courseList.add(course);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if(courseList.size()>0){
+            return courseList.get(0);
+        } else{
+            return new CourseModel(-1);
+        }
+    }
+    
+    public static CourseModel findByMHP(String mhp) {
+        List<CourseModel> courseList = new ArrayList<>();
+        Statement statement = null;
+        try {
+            Connection connection = DBConnection.connection;
+            String sql = "SELECT * FROM course WHERE mhp='"+mhp+"'";
+            statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+            while (resultSet.next()) {
+                CourseModel course = new CourseModel(
+                        resultSet.getInt("id"),
+                        resultSet.getString("mhp"),
+                        resultSet.getString("tenhp"),
+                        resultSet.getInt("tinchi")
+                );
+                courseList.add(course);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if(courseList.size()>0){
+            return courseList.get(0);
+        } else{
+            return new CourseModel(-1);
+        }
     }
 
     public static void insert(CourseModel course) {
