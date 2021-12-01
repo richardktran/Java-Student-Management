@@ -297,7 +297,7 @@ public class ScoreDetailFrm extends javax.swing.JFrame {
         btnExportAll.setBackground(new java.awt.Color(129, 97, 197));
         btnExportAll.setFont(new java.awt.Font("Open Sans", 1, 14)); // NOI18N
         btnExportAll.setForeground(new java.awt.Color(255, 255, 255));
-        btnExportAll.setText("In bảng điểm tất cả");
+        btnExportAll.setText("In bảng điểm tất cả học kỳ");
         btnExportAll.setBorder(null);
         btnExportAll.setContentAreaFilled(false);
         btnExportAll.setFocusPainted(false);

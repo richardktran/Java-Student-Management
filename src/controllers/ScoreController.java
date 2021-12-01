@@ -28,7 +28,7 @@ public class ScoreController {
         Statement statement = null;
         try {
             Connection connection = DBConnection.connection;
-            String sql = "SELECT * FROM score";
+            String sql = "SELECT * FROM score ORDER BY id DESC";
             statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {

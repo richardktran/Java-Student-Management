@@ -507,7 +507,6 @@ public class DashboardForm extends javax.swing.JFrame {
         pnSideBar = new javax.swing.JPanel();
         lbAvatar = new javax.swing.JLabel();
         lbName = new javax.swing.JLabel();
-        btnHome = new javax.swing.JButton();
         btnStudent = new javax.swing.JButton();
         btnCourse = new javax.swing.JButton();
         btnScore = new javax.swing.JButton();
@@ -575,6 +574,7 @@ public class DashboardForm extends javax.swing.JFrame {
         cbNamHocScore = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Hệ thống quản lý sinh viên");
 
         bg.setBackground(new java.awt.Color(2, 3, 10));
 
@@ -587,22 +587,7 @@ public class DashboardForm extends javax.swing.JFrame {
         lbName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbName.setText("Trần Đăng Khoa");
 
-        btnHome.setBackground(new java.awt.Color(129, 97, 197));
-        btnHome.setFont(new java.awt.Font("Open Sans", 1, 14)); // NOI18N
-        btnHome.setForeground(new java.awt.Color(255, 255, 255));
-        btnHome.setText("Trang chủ");
-        btnHome.setBorder(null);
-        btnHome.setContentAreaFilled(false);
-        btnHome.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnHome.setFocusPainted(false);
-        btnHome.setOpaque(true);
-        btnHome.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnHomeActionPerformed(evt);
-            }
-        });
-
-        btnStudent.setBackground(new java.awt.Color(4, 9, 33));
+        btnStudent.setBackground(new java.awt.Color(129, 97, 197));
         btnStudent.setFont(new java.awt.Font("Open Sans", 1, 14)); // NOI18N
         btnStudent.setForeground(new java.awt.Color(255, 255, 255));
         btnStudent.setText("Quản lý sinh viên");
@@ -652,7 +637,6 @@ public class DashboardForm extends javax.swing.JFrame {
         pnSideBarLayout.setHorizontalGroup(
             pnSideBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(lbName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(btnHome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnStudent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnCourse, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnScore, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -669,14 +653,12 @@ public class DashboardForm extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(lbName, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnHome, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
                 .addComponent(btnStudent, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(btnCourse, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(btnScore, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(306, Short.MAX_VALUE))
+                .addContainerGap(360, Short.MAX_VALUE))
         );
 
         pnStudent.setBackground(new java.awt.Color(2, 3, 10));
@@ -1025,9 +1007,7 @@ public class DashboardForm extends javax.swing.JFrame {
         );
         pnTable1Layout.setVerticalGroup(
             pnTable1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnTable1Layout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 32, Short.MAX_VALUE))
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 242, Short.MAX_VALUE)
         );
 
         pnForm1.setBackground(new java.awt.Color(255, 255, 255));
@@ -1094,25 +1074,26 @@ public class DashboardForm extends javax.swing.JFrame {
         pnForm1Layout.setHorizontalGroup(
             pnForm1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnForm1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(178, Short.MAX_VALUE)
                 .addGroup(pnForm1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(pnForm1Layout.createSequentialGroup()
-                        .addGroup(pnForm1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(32, 32, 32)
-                        .addComponent(txtTinChiCourse, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(txtTenHPCourse, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(pnForm1Layout.createSequentialGroup()
-                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(28, 28, 28)
-                        .addComponent(txtMHPCourse, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(pnForm1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnForm1Layout.createSequentialGroup()
+                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtMHPCourse, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnForm1Layout.createSequentialGroup()
+                            .addGroup(pnForm1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(32, 32, 32)
+                            .addComponent(txtTinChiCourse, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(167, 167, 167)
                 .addGroup(pnForm1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnClearCourse, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnAddUpdateCourse, javax.swing.GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE)
                     .addComponent(btnDeleteCourse, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(178, Short.MAX_VALUE))
         );
         pnForm1Layout.setVerticalGroup(
             pnForm1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1249,9 +1230,7 @@ public class DashboardForm extends javax.swing.JFrame {
         );
         pnTable2Layout.setVerticalGroup(
             pnTable2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnTable2Layout.createSequentialGroup()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 32, Short.MAX_VALUE))
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 242, Short.MAX_VALUE)
         );
 
         pnFormScore.setBackground(new java.awt.Color(255, 255, 255));
@@ -1503,7 +1482,6 @@ public class DashboardForm extends javax.swing.JFrame {
 
     private void btnScoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnScoreActionPerformed
         btnScore.setBackground(new Color(129, 97, 197));
-        btnHome.setBackground(new Color(4, 9, 33));
         btnStudent.setBackground(new Color(4, 9, 33));
         btnCourse.setBackground(new Color(4, 9, 33));
 
@@ -1512,20 +1490,8 @@ public class DashboardForm extends javax.swing.JFrame {
         pnScore.setVisible(true);
     }//GEN-LAST:event_btnScoreActionPerformed
 
-    private void btnHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHomeActionPerformed
-        btnHome.setBackground(new Color(129, 97, 197));
-        btnStudent.setBackground(new Color(4, 9, 33));
-        btnCourse.setBackground(new Color(4, 9, 33));
-        btnScore.setBackground(new Color(4, 9, 33));
-
-        pnStudent.setVisible(true);
-        pnCourse.setVisible(false);
-        pnScore.setVisible(false);
-    }//GEN-LAST:event_btnHomeActionPerformed
-
     private void btnStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStudentActionPerformed
         btnStudent.setBackground(new Color(129, 97, 197));
-        btnHome.setBackground(new Color(4, 9, 33));
         btnCourse.setBackground(new Color(4, 9, 33));
         btnScore.setBackground(new Color(4, 9, 33));
 
@@ -1537,7 +1503,6 @@ public class DashboardForm extends javax.swing.JFrame {
 
     private void btnCourseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCourseActionPerformed
         btnCourse.setBackground(new Color(129, 97, 197));
-        btnHome.setBackground(new Color(4, 9, 33));
         btnStudent.setBackground(new Color(4, 9, 33));
         btnScore.setBackground(new Color(4, 9, 33));
 
@@ -1689,7 +1654,6 @@ public class DashboardForm extends javax.swing.JFrame {
     private javax.swing.JButton btnDeleteCourse;
     private javax.swing.JButton btnDeleteScore;
     private javax.swing.JButton btnDeleteStudent;
-    private javax.swing.JButton btnHome;
     private javax.swing.JButton btnScore;
     private javax.swing.JButton btnSearchCourse;
     private javax.swing.JButton btnSearchScore;

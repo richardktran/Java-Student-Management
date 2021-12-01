@@ -26,7 +26,7 @@ public class CourseController {
         Statement statement = null;
         try {
             Connection connection = DBConnection.connection;
-            String sql = "SELECT * FROM course";
+            String sql = "SELECT * FROM course ORDER BY id DESC";
             statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {

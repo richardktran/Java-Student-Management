@@ -17,12 +17,12 @@ public class StudentManagement {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-//        LoginForm loginFrm = new LoginForm();
-//        loginFrm.setVisible(true);
-//        loginFrm.setLocationRelativeTo(null);
-        DashboardForm loginFrm = new DashboardForm();
+        LoginForm loginFrm = new LoginForm();
         loginFrm.setVisible(true);
         loginFrm.setLocationRelativeTo(null);
+//        DashboardForm loginFrm = new DashboardForm();
+//        loginFrm.setVisible(true);
+//        loginFrm.setLocationRelativeTo(null);
         
     }
     
