@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.util.Pair;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
@@ -110,7 +111,6 @@ public class ScoreDetailFrm extends javax.swing.JFrame {
             namList.add(namhoc);
             
             for (int i = 0; i < namList.size(); i++) {
-                
                 for (int j = 0; j < hockyList.size(); j++) {
                     String nh = namList.get(i);
                     String hk = hockyList.get(j);
@@ -119,9 +119,8 @@ public class ScoreDetailFrm extends javax.swing.JFrame {
                 }
                 
             }
-            
-            // Lấy từ cơ sở dữ liệu
             ExportController.exportAll(currentStudent, namhocList);
+            JOptionPane.showMessageDialog(this, "Bảng điểm đã được lưu thành công!");
         } catch (IOException ex) {
             Logger.getLogger(ScoreDetailFrm.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -131,33 +130,10 @@ public class ScoreDetailFrm extends javax.swing.JFrame {
         try {
             
             List<Pair<String, String>> namhocList = new ArrayList<Pair<String, String>>();
-            
-            List<String> hockyList = new ArrayList<String>();
-            hockyList.add("1");
-            hockyList.add("2");
-            hockyList.add("Hè");
-
-            List<String> namList = new ArrayList<String>();
-            namList.add("2020-2021");
-            namList.add("2021-2022");
-            namList.add("2022-2023");
-            namList.add("2023-2024");
-            
-            
-            for (int i = 0; i < namList.size(); i++) {
-                
-                for (int j = 0; j < hockyList.size(); j++) {
-                    String nh = namList.get(i);
-                    String hk = hockyList.get(j);
-                    Pair<String, String> pair = new Pair<>(nh, hk);
-                    namhocList.add(pair);
-                }
-                
-            }
-            
-            
-            // Lấy từ cơ sở dữ liệu
+            namhocList = ScoreController.findHocKyNamHoc(currentStudent);
             ExportController.exportAll(currentStudent, namhocList);
+            JOptionPane.showMessageDialog(this, "Bảng điểm đã được lưu thành công!");
+            
         } catch (IOException ex) {
             Logger.getLogger(ScoreDetailFrm.class.getName()).log(Level.SEVERE, null, ex);
         }

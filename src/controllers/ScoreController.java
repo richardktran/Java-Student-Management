@@ -113,36 +113,30 @@ public class ScoreController {
     }
     
     
-//    public static List<Pair<String, String>> findHocKyNamHoc(StudentModel student) {
-//        List<Pair<String, String>> namhocList = new ArrayList<Pair<String, String>>();
-//        List<ScoreModel> scoreList = new ArrayList<>();
-//        PreparedStatement statement = null;
-//        try {
-//            Connection connection = DBConnection.connection;
-//            String sql = "SELECT * FROM score WHERE sinhvien_id=? ";
-//            
-//            statement = connection.prepareCall(sql);
-//            statement.setInt(1, student.getId());
-//            
-//            ResultSet resultSet = statement.executeQuery();
-//            
-//            while (resultSet.next()) {
-//                ScoreModel score = new ScoreModel(
-//                        resultSet.getInt("id"),
-//                        StudentController.findById(resultSet.getInt("sinhvien_id")),
-//                        CourseController.findById(resultSet.getInt("monhoc_id")),
-//                        resultSet.getDouble("diem"),
-//                        resultSet.getString("namhoc"),
-//                        resultSet.getString("hocky")
-//                );
-//                scoreList.add(score);
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//        return scoreList;
-//    }
+    public static List<Pair<String, String>> findHocKyNamHoc(StudentModel student) {
+        List<Pair<String, String>> namhocList = new ArrayList<Pair<String, String>>();
+        PreparedStatement statement = null;
+        try {
+            Connection connection = DBConnection.connection;
+            String sql = "select DISTINCT namhoc, hocky from score WHERE sinhvien_id=? ";
+            
+            statement = connection.prepareCall(sql);
+            statement.setInt(1, student.getId());
+            
+            ResultSet resultSet = statement.executeQuery();
+            
+            while (resultSet.next()) {
+                String nh = resultSet.getString("namhoc");
+                String hk = resultSet.getString("hocky");
+                Pair<String,String> pair = new Pair<>(nh, hk); 
+                namhocList.add(pair);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return namhocList;
+    }
 
     public static void insert(ScoreModel score) {
         PreparedStatement statement = null;

@@ -5,6 +5,7 @@
  */
 package controllers;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -15,6 +16,10 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import javafx.util.Pair;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import models.ScoreModel;
 import models.StudentModel;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
@@ -72,11 +77,9 @@ public class ExportController {
             rownum++;
         }
         
-        
-        // Auto resize column witdth
         int numberOfColumn = sheet.getRow(0).getPhysicalNumberOfCells();
         autosizeColumn(sheet, numberOfColumn);
-        createOutputFile(workbook, "D:/StudentManagement/DiemCaNhan.xls");
+        createOutputFile(workbook, "Bangdiem_"+student.getMssv()+".xls");
     }
     
     private static void writeStudentInfo(HSSFWorkbook workbook, HSSFSheet sheet, int rowIndex, StudentModel student){
@@ -215,9 +218,33 @@ public class ExportController {
 
     
     
-    private static void createOutputFile(HSSFWorkbook workbook, String excelFilePath) throws IOException {
-        try (OutputStream os = new FileOutputStream(excelFilePath)) {
-            workbook.write(os);
+    private static void createOutputFile(HSSFWorkbook workbook, String filename) throws IOException {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Save the file"); //name for chooser
+        FileFilter filter = new FileNameExtensionFilter("XLS File", ".xls"); //filter to show only that
+        fileChooser.setAcceptAllFileFilterUsed(false); //to show or not all other files
+        fileChooser.addChoosableFileFilter(filter);
+        fileChooser.setSelectedFile(new File(filename)); //when you want to show the name of file into the chooser
+        fileChooser.setVisible(true);
+        int result = fileChooser.showSaveDialog(fileChooser);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            filename = fileChooser.getSelectedFile().getAbsolutePath();
+        } else {
+            return;
+        }
+
+        File file = new File(filename);
+        if (file.exists() == false) {
+
+            try (
+                FileOutputStream out = new FileOutputStream(file)) {
+                workbook.write(out);
+            }
+        } else {
+            try (
+                FileOutputStream out = new FileOutputStream(file)) {
+                workbook.write(out);
+            }
         }
     }
     private static void autosizeColumn(Sheet sheet, int lastColumn) {
