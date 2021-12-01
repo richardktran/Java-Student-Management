@@ -85,6 +85,33 @@ public class ScoreModel {
     public void setHocky(String hocky) {
         this.hocky = hocky;
     }
+    
+    public double getDiemHe4(){
+        if(this.diem>=9.0){
+            return 4.0;
+        }
+        if(this.diem>=8.0){
+            return 3.5;
+        }
+        if(this.diem>=7.0){
+            return 3.0;
+        }
+        if(this.diem>=6.5){
+            return 2.5;
+        }
+        if(this.diem>=5.5){
+            return 2.0;
+        }
+        
+        if(this.diem>=5.0){
+            return 1.5;
+        }
+        if(this.diem>=4.0){
+            return 1.0;
+        }
+        
+        return 0;
+    }
 
     public String getDiemChu(){
         if(this.diem>=9.0){

@@ -48,6 +48,16 @@ public class StudentModel {
         this.khoa = khoa;
         this.ngaySinh = ngaySinh;
     }
+    
+    public StudentModel(StudentModel std) {
+        this.id = std.id;
+        this.mssv = std.mssv;
+        this.ten = std.ten;
+        this.lop = std.lop;
+        this.nganh = std.nganh;
+        this.khoa = std.khoa;
+        this.ngaySinh = std.ngaySinh;
+    }
 
     public int getId() {
         return id;

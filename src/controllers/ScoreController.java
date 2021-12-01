@@ -47,6 +47,39 @@ public class ScoreController {
 
         return scoreList;
     }
+    
+    public static List<ScoreModel> findScore(StudentModel student, String namhoc, String hocky) {
+        List<ScoreModel> scoreList = new ArrayList<>();
+        PreparedStatement statement = null;
+        try {
+            Connection connection = DBConnection.connection;
+            String sql = "SELECT * FROM score WHERE sinhvien_id=? AND namhoc=? and hocky=?";
+            
+            statement = connection.prepareCall(sql);
+            statement.setInt(1, student.getId());
+            statement.setString(2, namhoc);
+            statement.setString(3, hocky);
+            
+            ResultSet resultSet = statement.executeQuery();
+            
+            while (resultSet.next()) {
+                ScoreModel score = new ScoreModel(
+                        resultSet.getInt("id"),
+                        StudentController.findById(resultSet.getInt("sinhvien_id")),
+                        CourseController.findById(resultSet.getInt("monhoc_id")),
+                        resultSet.getDouble("diem"),
+                        resultSet.getString("namhoc"),
+                        resultSet.getString("hocky")
+                );
+                System.out.println(score.getDiem());
+                scoreList.add(score);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return scoreList;
+    }
 
     public static void insert(ScoreModel score) {
         PreparedStatement statement = null;

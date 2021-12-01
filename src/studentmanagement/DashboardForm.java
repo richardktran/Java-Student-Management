@@ -25,6 +25,7 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import models.AdminModel;
 import models.CourseModel;
+import models.CurrentStudent;
 import models.ScoreModel;
 import models.StudentModel;
 
@@ -141,6 +142,17 @@ public class DashboardForm extends javax.swing.JFrame {
             txtKhoaStudent.setSelectedIndex(indexKhoa);
         }
         btnAddUpdateStudent.setText("Cập nhật");
+    }
+    
+    private void clickToOpenScoreDetailForm(){
+        int selectedIndex = tbStudent.getSelectedRow();
+        if (selectedIndex >= 0) {
+            System.out.println(selectedIndex);
+            StudentModel std = getStudentFromSelectedIndex(selectedIndex);
+            CurrentStudent.currentStudent= std;
+            ScoreDetailFrm scoreFrm = new ScoreDetailFrm();
+            scoreFrm.setVisible(true);
+        }
     }
 
     private void editStudent() {
@@ -1569,11 +1581,16 @@ public class DashboardForm extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDeleteStudentActionPerformed
 
     private void tbStudentMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbStudentMouseClicked
-
+        
     }//GEN-LAST:event_tbStudentMouseClicked
 
     private void tbStudentMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbStudentMousePressed
         clickToSelectStudent();
+        if (evt.getClickCount() == 2 && !evt.isConsumed()) {
+            evt.consume();
+            clickToOpenScoreDetailForm();
+        }
+        
     }//GEN-LAST:event_tbStudentMousePressed
 
 
