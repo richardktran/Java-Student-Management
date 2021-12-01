@@ -5,10 +5,18 @@
  */
 package studentmanagement;
 
+import controllers.ExportController;
 import controllers.ScoreController;
+import java.io.IOException;
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.util.Pair;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
@@ -64,8 +72,7 @@ public class ScoreDetailFrm extends javax.swing.JFrame {
         int tinchi = 0;
         getNamhoc();
         getHocKy();
-        System.out.println(namhoc + " " + hocky);
-        scoreList = ScoreController.findScore(currentStudent, namhoc, hocky);
+        scoreList = ScoreController.findScoreStudent(currentStudent, namhoc, hocky);
         scoreTable.setRowCount(0);
         scoreList.forEach((score) -> {
             scoreTable.addRow(new Object[]{
@@ -90,6 +97,70 @@ public class ScoreDetailFrm extends javax.swing.JFrame {
         lbTrungbinh.setText(Double.toString(trungbinh));
         lbTongTinChi.setText(Integer.toString(tinchi));
         
+    }
+    
+    private void xuatBangDiemHocKy(){
+        try {
+            List<Pair<String, String>> namhocList = new ArrayList<Pair<String, String>>();
+            
+            List<String> hockyList = new ArrayList<String>();
+            hockyList.add(hocky);
+
+            List<String> namList = new ArrayList<String>();
+            namList.add(namhoc);
+            
+            for (int i = 0; i < namList.size(); i++) {
+                
+                for (int j = 0; j < hockyList.size(); j++) {
+                    String nh = namList.get(i);
+                    String hk = hockyList.get(j);
+                    Pair<String, String> pair = new Pair<>(nh, hk);
+                    namhocList.add(pair);
+                }
+                
+            }
+            
+            // Lấy từ cơ sở dữ liệu
+            ExportController.exportAll(currentStudent, namhocList);
+        } catch (IOException ex) {
+            Logger.getLogger(ScoreDetailFrm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void xuatBangDiemFull(){
+        try {
+            
+            List<Pair<String, String>> namhocList = new ArrayList<Pair<String, String>>();
+            
+            List<String> hockyList = new ArrayList<String>();
+            hockyList.add("1");
+            hockyList.add("2");
+            hockyList.add("Hè");
+
+            List<String> namList = new ArrayList<String>();
+            namList.add("2020-2021");
+            namList.add("2021-2022");
+            namList.add("2022-2023");
+            namList.add("2023-2024");
+            
+            
+            for (int i = 0; i < namList.size(); i++) {
+                
+                for (int j = 0; j < hockyList.size(); j++) {
+                    String nh = namList.get(i);
+                    String hk = hockyList.get(j);
+                    Pair<String, String> pair = new Pair<>(nh, hk);
+                    namhocList.add(pair);
+                }
+                
+            }
+            
+            
+            // Lấy từ cơ sở dữ liệu
+            ExportController.exportAll(currentStudent, namhocList);
+        } catch (IOException ex) {
+            Logger.getLogger(ScoreDetailFrm.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -118,8 +189,8 @@ public class ScoreDetailFrm extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         lbTongTinChi = new javax.swing.JLabel();
-        btnClearStudent = new javax.swing.JButton();
-        btnClearStudent1 = new javax.swing.JButton();
+        btnExportAll = new javax.swing.JButton();
+        btnExportOne = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -247,31 +318,31 @@ public class ScoreDetailFrm extends javax.swing.JFrame {
         lbTongTinChi.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         lbTongTinChi.setText("18");
 
-        btnClearStudent.setBackground(new java.awt.Color(129, 97, 197));
-        btnClearStudent.setFont(new java.awt.Font("Open Sans", 1, 14)); // NOI18N
-        btnClearStudent.setForeground(new java.awt.Color(255, 255, 255));
-        btnClearStudent.setText("In bảng điểm tất cả");
-        btnClearStudent.setBorder(null);
-        btnClearStudent.setContentAreaFilled(false);
-        btnClearStudent.setFocusPainted(false);
-        btnClearStudent.setOpaque(true);
-        btnClearStudent.addActionListener(new java.awt.event.ActionListener() {
+        btnExportAll.setBackground(new java.awt.Color(129, 97, 197));
+        btnExportAll.setFont(new java.awt.Font("Open Sans", 1, 14)); // NOI18N
+        btnExportAll.setForeground(new java.awt.Color(255, 255, 255));
+        btnExportAll.setText("In bảng điểm tất cả");
+        btnExportAll.setBorder(null);
+        btnExportAll.setContentAreaFilled(false);
+        btnExportAll.setFocusPainted(false);
+        btnExportAll.setOpaque(true);
+        btnExportAll.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnClearStudentActionPerformed(evt);
+                btnExportAllActionPerformed(evt);
             }
         });
 
-        btnClearStudent1.setBackground(new java.awt.Color(129, 97, 197));
-        btnClearStudent1.setFont(new java.awt.Font("Open Sans", 1, 14)); // NOI18N
-        btnClearStudent1.setForeground(new java.awt.Color(255, 255, 255));
-        btnClearStudent1.setText("In bảng điểm học kỳ này");
-        btnClearStudent1.setBorder(null);
-        btnClearStudent1.setContentAreaFilled(false);
-        btnClearStudent1.setFocusPainted(false);
-        btnClearStudent1.setOpaque(true);
-        btnClearStudent1.addActionListener(new java.awt.event.ActionListener() {
+        btnExportOne.setBackground(new java.awt.Color(129, 97, 197));
+        btnExportOne.setFont(new java.awt.Font("Open Sans", 1, 14)); // NOI18N
+        btnExportOne.setForeground(new java.awt.Color(255, 255, 255));
+        btnExportOne.setText("In bảng điểm học kỳ này");
+        btnExportOne.setBorder(null);
+        btnExportOne.setContentAreaFilled(false);
+        btnExportOne.setFocusPainted(false);
+        btnExportOne.setOpaque(true);
+        btnExportOne.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnClearStudent1ActionPerformed(evt);
+                btnExportOneActionPerformed(evt);
             }
         });
 
@@ -289,11 +360,11 @@ public class ScoreDetailFrm extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(lbTrungbinh, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnClearStudent1, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnExportOne, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(lbTongTinChi, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnClearStudent, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnExportAll, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(154, 154, 154))
         );
         jPanel1Layout.setVerticalGroup(
@@ -303,12 +374,12 @@ public class ScoreDetailFrm extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbTrungbinh, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnClearStudent1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnExportOne, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbTongTinChi, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnClearStudent, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnExportAll, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(23, 23, 23))
         );
 
@@ -395,13 +466,13 @@ public class ScoreDetailFrm extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_formWindowClosing
 
-    private void btnClearStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearStudentActionPerformed
-        //
-    }//GEN-LAST:event_btnClearStudentActionPerformed
+    private void btnExportAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportAllActionPerformed
+        xuatBangDiemFull();
+    }//GEN-LAST:event_btnExportAllActionPerformed
 
-    private void btnClearStudent1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearStudent1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnClearStudent1ActionPerformed
+    private void btnExportOneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportOneActionPerformed
+        xuatBangDiemHocKy();
+    }//GEN-LAST:event_btnExportOneActionPerformed
 
     /**
      * @param args the command 
@@ -440,8 +511,8 @@ public class ScoreDetailFrm extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel bg;
-    private javax.swing.JButton btnClearStudent;
-    private javax.swing.JButton btnClearStudent1;
+    private javax.swing.JButton btnExportAll;
+    private javax.swing.JButton btnExportOne;
     private javax.swing.JButton btnLietKe;
     private javax.swing.JComboBox<String> cbHocKy;
     private javax.swing.JComboBox<String> cbNamHoc;

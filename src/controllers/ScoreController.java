@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.util.Pair;
 import models.ScoreModel;
 import models.StudentModel;
 import studentmanagement.DBConnection;
@@ -48,7 +49,7 @@ public class ScoreController {
         return scoreList;
     }
     
-    public static List<ScoreModel> findScore(StudentModel student, String namhoc, String hocky) {
+    public static List<ScoreModel> findScoreStudent(StudentModel student, String namhoc, String hocky) {
         List<ScoreModel> scoreList = new ArrayList<>();
         PreparedStatement statement = null;
         try {
@@ -71,6 +72,36 @@ public class ScoreController {
                         resultSet.getString("namhoc"),
                         resultSet.getString("hocky")
                 );
+                scoreList.add(score);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return scoreList;
+    }
+    
+    public static List<ScoreModel> findScoreStudentAll(StudentModel student) {
+        List<ScoreModel> scoreList = new ArrayList<>();
+        PreparedStatement statement = null;
+        try {
+            Connection connection = DBConnection.connection;
+            String sql = "SELECT * FROM score WHERE sinhvien_id=?";
+            
+            statement = connection.prepareCall(sql);
+            statement.setInt(1, student.getId());
+            
+            ResultSet resultSet = statement.executeQuery();
+            
+            while (resultSet.next()) {
+                ScoreModel score = new ScoreModel(
+                        resultSet.getInt("id"),
+                        StudentController.findById(resultSet.getInt("sinhvien_id")),
+                        CourseController.findById(resultSet.getInt("monhoc_id")),
+                        resultSet.getDouble("diem"),
+                        resultSet.getString("namhoc"),
+                        resultSet.getString("hocky")
+                );
                 System.out.println(score.getDiem());
                 scoreList.add(score);
             }
@@ -80,6 +111,38 @@ public class ScoreController {
 
         return scoreList;
     }
+    
+    
+//    public static List<Pair<String, String>> findHocKyNamHoc(StudentModel student) {
+//        List<Pair<String, String>> namhocList = new ArrayList<Pair<String, String>>();
+//        List<ScoreModel> scoreList = new ArrayList<>();
+//        PreparedStatement statement = null;
+//        try {
+//            Connection connection = DBConnection.connection;
+//            String sql = "SELECT * FROM score WHERE sinhvien_id=? ";
+//            
+//            statement = connection.prepareCall(sql);
+//            statement.setInt(1, student.getId());
+//            
+//            ResultSet resultSet = statement.executeQuery();
+//            
+//            while (resultSet.next()) {
+//                ScoreModel score = new ScoreModel(
+//                        resultSet.getInt("id"),
+//                        StudentController.findById(resultSet.getInt("sinhvien_id")),
+//                        CourseController.findById(resultSet.getInt("monhoc_id")),
+//                        resultSet.getDouble("diem"),
+//                        resultSet.getString("namhoc"),
+//                        resultSet.getString("hocky")
+//                );
+//                scoreList.add(score);
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        return scoreList;
+//    }
 
     public static void insert(ScoreModel score) {
         PreparedStatement statement = null;

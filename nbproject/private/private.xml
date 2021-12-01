@@ -5,8 +5,7 @@
         <group>
             <file>file:/E:/Java/StudentManagement/src/controllers/ScoreController.java</file>
             <file>file:/E:/Java/StudentManagement/src/studentmanagement/ScoreDetailFrm.java</file>
-            <file>file:/E:/Java/StudentManagement/src/models/ScoreModel.java</file>
-            <file>file:/E:/Java/StudentManagement/src/studentmanagement/DashboardForm.java</file>
+            <file>file:/E:/Java/StudentManagement/src/controllers/ExportController.java</file>
         </group>
     </open-files>
 </project-private>
